@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://kit.fontawesome.com/3945c15443.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="header">
+    <div class="container">
+        <nav>
+            <ul id="sidemenu">
+                <li><a href="#header">Home</a></li>
+                <li><a href="#about">About</a></li>
+                <!-- <li><a href="#services">Services</a></li> -->
+                <li><a href="#portfolio">Portfolio</a></li>
+                <li><a href="#contact">Contact</a></li>
+                <i class="fa-solid fa-xmark" onclick="closemenu()"></i>
+            </ul>
+            <i class="fa-solid fa-bars" onclick="openmenu()"></i>
+        </nav>
+
+        <div class="header-text">
+            <p>Welcome to Ben Adams' Portfolio</p>
+            <h1>Graduate Programmer</h1>
+        </div>
+    </div>
+</div>
+
+<!-------------about--------------->
+    <div id="about">
+        <div class="container">
+            <div class="row">
+                <div class="about-col-2">
+                    <h1 class="sub-title">About Me</h1></div>
+                        <p>
+                            Hello, I’m Ben Adams.
+                            <br>I recently graduated from Falmouth University with a degree in Computing for Games. Over the past five plus years, I’ve built a strong knowledge foundation in computer science and software development, with a particular focus on game development.
+
+                            <br><br>At university, I explored various areas of programming, including general computer science principles, software engineering, game engines and simulations. I'm most experienced with C#, C++, and Python, and enjoy creating frameworks that other systems or developers can build on.
+
+                            <br><br>Alongside technical skills, I’ve worked in both solo and team projects using agile workflows, which gave me insight into time management, collaboration, and leadership.
+
+                            <br><br>I’m currently looking for a graduate programming role where I can grow as a developer and contribute to meaningful projects.
+
+                            <br><br>Feel free to check out my portfolio below or get in touch via LinkedIn, email, or the contact form. I'd love to connect!  
+                        </p>
+                    <div class="tab-titles">
+                            <p class="tab-links active-link" onclick="opentab('skills')">Skills</p>
+                            <p class="tab-links" onclick="opentab('experience')">Experience</p>
+                            <p class="tab-links" onclick="opentab('education')">Education</p>
+                    </div>
+                    <div class="tab-contents active-tab" id="skills">
+                        <ul>
+                            <li><span class="item-title">C++</span><span class="item-description">Used: Graphics Simulation, Game Development, Software Development. Years: 2-years</span></li>
+                            <li><span class="item-title">C#</span><span class="item-description">Used: Software Development, HCI Systems, Game Development. Years: 5-years</span></li>
+                            <li><span class="item-title">Python</span><span class="item-description">Used: Data Science, AI Development, Software Development. Years: 7-years</span></li>
+                            <li><span class="item-title">Unity</span><span class="item-description">Game Development, Arduino Interfacing. Years: 4-years</span></li>
+                            <li><span class="item-title">Unreal Engine 5</span><span class="item-description">Game Development. Years: 2-years</span></li>
+                            <li><span class="item-title">Agile Workflow</span><span class="item-description">Time Management, Team Management, Daily Standups. Years: 5-years</span></li>
+                        </ul>
+                    </div>
+                    <div class="tab-contents" id="experience">
+                        <ul>
+                            <li><span class="item-title">Ex Title 1</span><span class="item-description">Short Description</span></li>
+                            <li><span class="item-title">Ex Title 2</span><span class="item-description">Short Description</span></li>
+                            <li><span class="item-title">Ex Title 3</span><span class="item-description">Short Description</span></li>
+                        </ul>
+                    </div>
+                    <div class="tab-contents" id="education">
+                        <ul>
+                            <li><span class="item-title">Falmouth University - Computing for Games</span><span class="item-description">Short Description</span></li>
+                            <li><span class="item-title">Longsands Sixth Form - Double Computing</span><span class="item-description">Short Description</span></li>
+                        </ul>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+<!------------------------------------------Services---------------------------------------------->
+<!--<div id="services">
+    <div class="container">
+        <h1 class="sub-title">My Services</h1>
+        <div class="services-list">
+            <div>
+                <h2>Service 1</h2>
+                <p>Service 1 lalala</p>
+                <a href="#">learn more</a>
+            </div>
+            <div>
+                <h2>Service 2</h2>
+                <p>Service 2 lalala</p>
+                <a href="#">learn more</a>
+            </div>
+            <div>
+                <h2>Service 3</h2>
+                <p>Service 3 lalala</p>
+                <a href="#">learn more</a>
+            </div>
+        </div>
+    </div>
+</div>    -->
+<!------------------------------------------Portfolio-------------------------------------------->
+<div id="portfolio">
+    <div class="container">
+        <h1 class="sub-title">My Work</h1>
+        <div class="work-list">
+            <div class="work">
+                <img src="images/Lorenz.PNG">
+                <div class="layer">
+                    <h3>OpenGL Lorenz System</h3>
+                    <p>This is a OpenGL prokject where I learnt how to create a particle system in OpenGL, used mathmatical principles to change it into a simulation and used Visual Studio profiling tools to optimise the project</p>
+                    <a href="https://github.com/benada482/OpenGL-LorenzSystem/tree/main"><i class="fa-solid fa-up-right-from-square"></i></a>
+                </div>
+            </div>
+            <div class="work">
+                <img src="images/keanu.jpg">
+                <div class="layer">
+                    <h3>Portfolio Number 2</h3>
+                    <p>Portfolio app number 2</p>
+                    <a href="#"><i class="fa-solid fa-up-right-from-square"></i></a>
+                </div>
+            </div>
+            <div class="work">
+                <img src="images/coop.png">
+                <div class="layer">
+                    <h3>Co-Operation</h3>
+                    <p>A team of 10 made a co-op game. Made in Unreal Engine 5</p>
+                    <a href="https://cheese-dynamics-games.itch.io/cooperation"><i class="fa-solid fa-up-right-from-square"></i></a>
+                </div>
+            </div>
+        </div>
+        <a href="#" class="btn">See more</a>
+    </div>
+</div>
+<!------------------------------------------Contact-------------------------------------------->
+<div id="contact">
+    <div class="container">
+        <div class="row">
+            <div class="contact-left">
+                <h1 class="sub-title">Contact Me</h1>
+                <p><i class="fa-solid fa-envelope"></i>ben.ada482@gmail.com</p>
+                <div class="social-icons">
+                    <a href="https://www.linkedin.com/in/ben-adams-53aa44251/"><i class="fa-brands fa-linkedin"></i></a>
+                </div>
+                <a href="images/UE544GuideToGit.pdf" download class="btn btn2">Download CV</a>
+            </div>
+            <div class="contact-right">
+                <form action="https://api.web3forms.com/submit" id="form" method="POST">
+                    <input type="hidden" name="access_key" value="a8534a6b-1fc7-425a-8252-d2dbc1fedbee">
+                    <input type="text" name="Name" placeholder="Your Name" required>
+                    <input type="email" name="email" placeholder="Your Email" required>
+                    <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
+                    <!--<div class="h-captcha" data-captcha="true"></div>-->
+                    <button type="submit" class="btn btn2">Submit</button> 
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="copyright">
+        <p>Copyright © Ben.</p>
+    </div>
+</div>
+
+
+<script>
+
+    var tablinks = document.getElementsByClassName("tab-links");
+    var tabcontents = document.getElementsByClassName("tab-contents");
+    function opentab(tabname){
+        for(tablink of tablinks){
+            tablink.classList.remove("active-link");
+        }
+        for(tabcontent of tabcontents){
+            tabcontent.classList.remove("active-tab");
+        }
+        event.currentTarget.classList.add("active-link");
+        document.getElementById(tabname).classList.add("active-tab");
+    }
+
+</script>
+
+<!--<script src="https://web3forms.com/client/script.js" async defer></script>
+
+<script>
+const form = document.getElementById('form');
+
+form.addEventListener('submit', function(e) {
+
+    const hCaptcha = form.querySelector('textarea[name=h-captcha-response]').value;
+
+    if (!hCaptcha) {
+        e.preventDefault();
+        alert("Please fill out captcha field")
+        return
+    }
+});
+</script>-->
+
+<script>
+
+    var sidemeu = document.getElementById("sidemenu");
+
+    function openmenu(){
+        sidemeu.style.right = "0";
+    }
+
+    function closemenu(){
+        sidemeu.style.right = "-200px";
+    }
+
+</script>
+
+</body>
+</html>
