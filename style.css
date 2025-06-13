@@ -196,7 +196,7 @@ nav ul li a:hover::after{
 }
 .work-list{
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     grid-gap: 40px;
     margin-top: 50px;
 }
@@ -268,6 +268,10 @@ nav ul li a:hover::after{
 .btn:hover{
     background: #ff004f;
 }
+.hidden {
+    display: none;
+}
+
 
 /*---------------------contact------------------*/
 .contact-left{
@@ -337,6 +341,11 @@ nav .fa-solid{
     display: none;
 }
 
+@media (max-width: 900px) {
+  .work-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
 
 @media only screen and (max-width: 600px){
     .header-text{
@@ -399,4 +408,8 @@ nav .fa-solid{
     .copyright{
         font-size: 14px;
     }
+    .work-list {
+    grid-template-columns: 1fr;
+  }
+
 }
