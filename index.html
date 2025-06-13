@@ -133,7 +133,7 @@
             </div>
 
             <!--Hidden items-->
-            <div class="work hidden extra-work">
+            <div class="work extra-work">
                 <img src="images/coop.png">
                 <div class="layer">
                     <h3>Co-Operation</h3>
@@ -142,7 +142,7 @@
                 </div>
             </div>
 
-            <div class="work hidden extra-work">
+            <div class="work extra-work">
                 <img src="images/coop.png">
                 <div class="layer">
                     <h3>Co-Operation</h3>
@@ -151,7 +151,7 @@
                 </div>
             </div>
 
-            <div class="work hidden extra-work">
+            <div class="work extra-work">
                 <img src="images/coop.png">
                 <div class="layer">
                     <h3>Co-Operation</h3>
@@ -160,7 +160,7 @@
                 </div>
             </div>
 
-            <div class="work hidden extra-work">
+            <div class="work extra-work">
                 <img src="images/coop.png">
                 <div class="layer">
                     <h3>Co-Operation</h3>
@@ -169,7 +169,7 @@
                 </div>
             </div>
 
-            <div class="work hidden extra-work">
+            <div class="work extra-work">
                 <img src="images/coop.png">
                 <div class="layer">
                     <h3>Co-Operation</h3>
@@ -177,7 +177,7 @@
                     <a href="https://cheese-dynamics-games.itch.io/cooperation"><i class="fa-solid fa-up-right-from-square"></i></a>
                 </div>
             </div>
-            <div class="work hidden extra-work">
+            <div class="work extra-work">
                 <img src="images/coop.png">
                 <div class="layer">
                    <h3>Co-Operation</h3>
@@ -185,14 +185,7 @@
                     <a href="https://cheese-dynamics-games.itch.io/cooperation"><i class="fa-solid fa-up-right-from-square"></i></a>
                 </div>
             </div> 
-
-
-
-
         </div>
-
-            
-
 
         <a href="#" class="btn" id="toggle-btn">See more</a>
     </div>
@@ -262,17 +255,35 @@ form.addEventListener('submit', function(e) {
 </script>-->
 
 <script>
-const toggleBtn = document.getElementById("toggle-btn");
-const extraWorks = document.querySelectorAll(".extra-work");
+  const toggleBtn = document.getElementById("toggle-btn");
+  const extraItems = document.querySelectorAll(".extra-work");
+  let showing = false;
 
-toggleBtn.addEventListener("click", () => {
-    extraWorks.forEach(work => {
-        work.classList.toggle("hidden");
-    });
+  toggleBtn.addEventListener("click", (e) => {
+    e.preventDefault();
+    showing = !showing;
 
-    toggleBtn.innerText = extraWorks[0].classList.contains("hidden") ? "See more" : "See less";
-});
+    const itemsPerRow = 3;
+    const totalItems = extraItems.length;
+
+    for (let i = 0; i < totalItems; i += itemsPerRow) {
+      const rowItems = Array.from(extraItems).slice(i, i + itemsPerRow);
+
+      setTimeout(() => {
+        rowItems.forEach((item) => {
+          if (showing) {
+            item.classList.add("show");
+          } else {
+            item.classList.remove("show");
+          }
+        });
+      }, i * 150); // Adjust delay between rows here
+    }
+
+    toggleBtn.textContent = showing ? "Show less" : "See more";
+  });
 </script>
+
 
 <script>
 
