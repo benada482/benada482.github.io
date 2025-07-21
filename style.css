@@ -318,7 +318,14 @@ nav ul li a:hover::after{
     color: #ff004f;
     transform: translateY(-5px);
 }
+.cv-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: flex-start; /* Align buttons to the left */
+}
 .btn.btn2{
+    margin: 0;
     display: inline-block;
     background: #ff004f;
 }
