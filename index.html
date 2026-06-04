@@ -2,312 +2,770 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Personal Portfolio</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="https://kit.fontawesome.com/3945c15443.js" crossorigin="anonymous"></script>
-</head>
+    <title>Ben Adams - Personal Portfolio</title>
+    <style>
+        :root{
+            --bg-deep: #070f09;
+            --brass: #dfb141;
+            --copper: #c86f43;
+            --glass-sheet: rgba(245, 240, 225, 0.04);
+            --glass-heavy: rgba(10, 24, 15, 0.85);
+            --biolume: #3ae883;
+            --amber-glow: #fca311;
+            --text-light: #f1f6f0;
+            --text-dim: #8fa08b;
+        }
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background-color: var(--bg-deep);
+            background-image: radial-gradient(circle at 50% 50%, #112817 0%, var(--bg-deep) 80%);
+            color: var(--text-light);
+            height: 100vh;
+            width: 100vw;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .dashboard-container{
+            width: 100%;
+            max-width: 1300px;
+            height: 90vh;
+            display: grid;
+            grid-template-columns: 340px, 1fr;
+            grid-template-rows: 1fr 140px;
+            border: 3px double var(--brass);
+            border-radius: 40px;
+            background: rgba(10, 20, 13, 0.6);
+            backdrop-filter: blur(10px);
+            position: relative;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.7), inset 0 0 40px rgba(224, 177, 65, 0.1);
+            overflow: hidden;
+        }
+
+        .dashboard-container::before{
+            content: '';
+            position: absolute;
+            top: 10px; left: 10px; right: 10px; bottom: 10px;
+            border: 1px dashed var(--copper);
+            border-radius: 30px;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        /*Simulation Viewport*/
+        .simulation-view{
+            grid-column: 2;
+            grid-row: 1;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 2px solid var(--copper);
+            background: rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        #lorenz-canvas{
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            mix-blend-mode: screen;
+        }
+
+        .scope-overlay{
+            position: absolute;
+            width: 80%;
+            height: 80%;
+            border: 1px solid rgba(223, 177, 65, 0.15);
+            border-radius: 50% 45% 48% 43%;
+            pointer-events: auto;
+            z-index: 2;
+            transition: all 0.5s ease;
+        }
+
+        /*Dynamic Panels*/
+        .content-overlay-panel{
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--glass-heavy);
+            z-index: 10;
+            padding: 3rem;
+            overflow-y: auto;
+            transform: translateY(100%);
+            transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+            backdrop-filter: blur(15px);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .content-overlay-panel.active{
+            transform: translateY(0);
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .close-panel-btn{
+            position: absolute;
+            top: 2rem; right: 2rem;
+            background: transparent;
+            border: 1px solid var(--copper);
+            color: var(--brass);
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border-radius: 10px 4px;
+            font-size: 0.8rem;
+            transition: all 0.2s ease;
+            z-index: 20;
+            transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .close-panel-btn:hover{
+            border-color: var(--biolume);
+            color: #fff;
+        }
+        
+        /*Sidebar & layout*/
+        .left-panel{
+            grid-column: 1;
+            grid-row: span 2;
+            border-right: 2px solid var(--copper);
+            padding: 2.5rem 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            background: rgba(5, 12, 7, 0.4);
+        }
+
+        .bottom-panel{
+            grid-column: 2;
+            grid-row: 2;
+            padding: 1.5rem 2.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 2rem;
+            background: rgba(5, 12, 7, 0.2);
+        }
+
+        h1 { font-size: 2,2rem; font-weight: 400; line-height: 1.2; margin-bottom: 0.5rem;}
+        h2 { font-family: sans-serif; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.3em; color: var(--brass); margin-bottom: 1rem;}
+        h3 { font-size: 1.6rem; color: var(--brass); margin-bottom: 1.5rem; border-bottom: 1px dashed var(--copper); padding-bottom: 0.5rem; }
+        p {color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; user-select: text;}
+
+        .nav-group {display: flex; flex-direction: column; gap: 0.75rem; margin-top: 1rem;}
+        .nav-item { padding: 1rem; background: var(--glass-sheet); border: 1px solid rgba(223, 177, 65, 0.2); border-radius: 15px 4px; cursor: pointer; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing:grayscale; backface-visibility: hidden; transform: translateZ(0); transition: transform 0.18s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.18s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.18s cubic-bezier(0.25, 1, 0.5, 1);}
+        .nav-item:hover {border-color: var(--biolume); background: rgba(58, 232, 131, 0.05); transform: translateX(6px); }
+        .nav-item span {font-size: 1.05rem; color: #fff; display: block;}
+        .nav-item small {font-family: sans-serif; color: var(--brass); font-size: 0.7rem;}
+
+        /*Content Template Design Style*/
+        .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 1rem; }
+        .skill-card { background: rgba(255,255,255,0.02); border: 1px solid rgba(200, 111, 67, 0.2); padding: 1.25rem; border-radius: 12px; }
+        .skill-card h4 { color: #fff; margin-bottom: 0.5rem; font-size: 1.1rem; }
+        .skill-card ul { list-style-type: none; color: var(--text-dim); font-size: 0.9rem; line-height: 1.5; }
+
+        .timeline-item { margin-bottom: 2rem; position: relative; padding-left: 1.5rem; border-left: 2px solid var(--brass); }
+        .timeline-meta { font-family: sans-serif; font-size: 0.75rem; color: var(--copper); font-weight: bold; margin-bottom: 0.25rem; }
+        .timeline-title { font-size: 1.2rem; color: #fff; margin-bottom: 0.5rem; }
+
+        /* --- HARD BOUNDED CONTACT FORM --- */
+        .contact-form { max-width: 550px; display: flex; flex-direction: column; gap: 1.25rem; }
+        .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+        .form-group label { font-family: sans-serif; font-size: 0.75rem; text-transform: uppercase; color: var(--text-dim); letter-spacing: 0.1em; }
+        .form-input {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(223, 177, 65, 0.3);
+            padding: 0.85rem; color: #fff; font-size: 1rem;
+            border-radius: 8px; transition: border-color 0.2s ease;
+        }
+        .form-input:focus { outline: none; border-color: var(--biolume); background: rgba(0,0,0,0.6); }
+        textarea.form-input { min-height: 120px; resize: vertical; }
+        
+        .submit-btn {
+            background: transparent; border: 2px solid var(--brass); color: var(--brass);
+            padding: 1rem; font-size: 1rem; cursor: pointer; border-radius: 15px 5px;
+            transition: all 0.2s cubic-bezier(0.25, 1, 0.5, 1); font-weight: bold;
+        }
+        .submit-btn:hover { background: var(--biolume); border-color: var(--biolume); color: var(--bg-deep); transform: translateY(-2px); }
+
+        /*Struct slider*/
+        .sliders-deck{display: flex; gap: 2rem; flex-grow: 1;}
+        .control-widget{flex: 1;}
+        .control-label{ font-family: sans-serif; display: flex; justify-content: space-between; font-size: 0.7rem; letter-spacing: 0.1em; margin-bottom: 0.5rem; color: var(--text-dim);}
+        .control-value{ color: var(--amber-glow); font-weight: bold; display: inline-block; width: 45px; text-align: right; font-family: monospace;}
+
+        input[type=range] { -webkit-appearance: none; width: 100%; background: transparent;}
+        input[type=range]::-webkit-slider-thumb{
+            -webkit-appearance: none;
+            height: 14px; width: 14px;
+            border-radius: 50%;
+            background: var(--brass);
+            cursor: pointer;
+            border: 2px solid var(--bg-deep);
+            margin-top: -5px;
+        }
+        input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: rgba(200, 111, 67, 0.3); border-radius: 2px;}
+
+        /*Mobile Only Adaption*/
+        @media (max-width: 900px) {
+            body {padding: 0.5rem; overflow-y: auto; height: auto;}
+            .dashboard-container {grid-template-columns: 1fr; grid-template-rows: auto 400px auto; height: auto; border-radius: 20px;}
+            .left-panel { grid-column: 1; grid-row: 1; border-right: none; border-bottom: 2px solid var(--copper); padding: 1.5rem; }
+            .simulation-view { grid-column: 1; grid-row: 2; height: 400px; }
+            .bottom-panel { grid-column: 1; grid-row: 3; flex-direction: column; padding: 1.5rem; gap: 1.5rem; }
+            .sliders-deck { flex-direction: column; width: 100%; gap: 1rem; }
+        }
+
+        /* --- SIDEBAR FOOTER UTILITY PROFILE --- */
+    .sidebar-utility-footer {
+        margin-top: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.75rem;
+        border-top: 1px dashed rgba(200, 111, 67, 0.25);
+        padding-top: 1.25rem;
+    }
+
+    .document-links {
+        display: flex;
+        gap: 1.25rem;
+    }
+
+    .util-link {
+        font-family: monospace;
+        font-size: 0.75rem;
+        letter-spacing: 0.05em;
+        color: var(--brass);
+        text-decoration: none;
+        font-weight: bold;
+        transition: color 0.15s ease, transform 0.15s cubic-bezier(0.25, 1, 0.5, 1);
+        display: inline-block;
+    }
+
+    .util-link small {
+        font-size: 0.7rem;
+        color: var(--copper);
+    }
+
+    /* Tactile micro-response on hover */
+    .util-link:hover {
+       color: var(--biolume);
+       transform: translateY(-1px);
+    }
+
+    .util-link:active {
+       transform: translateY(0);
+    }
+
+    .system-status-text {
+        font-size: 0.65rem; 
+        font-family: sans-serif; 
+        letter-spacing: 0.1em; 
+       color: rgba(223, 177, 65, 0.3);
+       margin-top: 0.25rem;
+    }
+    /* --- PROJECT DETAIL MEDIA BLOCK --- */
+    .project-media-placeholder {
+        width: 100%;
+        height: 280px;
+        background: rgba(0, 0, 0, 0.5);
+        border: 1px solid var(--copper);
+       border-radius: 12px;
+       margin-bottom: 2rem;
+       display: flex;
+       justify-content: center;
+      align-items: center;
+    }
+    /* --- PROJECT DETAIL MEDIA BLOCK --- */
+    .project-media-placeholder {
+       width: 100%;
+       height: 280px;
+       background: rgba(0, 0, 0, 0.5);
+       border: 1px solid var(--copper);
+       border-radius: 12px;
+       margin-bottom: 2rem;
+       display: flex;
+       justify-content: center;
+        align-items: center;
+    }
+    </style>
+
+<!-- Main webpage Content -->
 <body>
-<div id="header">
-    <div class="container">
-        <nav>
-            <ul id="sidemenu">
-                <li><a href="#header">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <!-- <li><a href="#services">Services</a></li> -->
-                <li><a href="#portfolio">Portfolio</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <i class="fa-solid fa-xmark" onclick="closemenu()"></i>
-            </ul>
-            <i class="fa-solid fa-bars" onclick="openmenu()"></i>
-        </nav>
-
-        <div class="header-text">
-            <p>Welcome to Ben Adams' Portfolio</p>
-            <h1>Graduate Programmer</h1>
-        </div>
-    </div>
-</div>
-
-<!-------------about--------------->
-    <div id="about">
-        <div class="container">
-            <div class="row">
-                <div class="about-col-2">
-                    <h1 class="sub-title">About Me</h1></div>
-                        <p>
-                            Hello, I’m Ben Adams.
-                            <br>I recently graduated from Falmouth University with a degree in Computing for Games. Over the past five plus years, I’ve built a strong knowledge foundation in computer science and software development, with a particular focus on game development.
-
-                            <br><br>At university, I explored various areas of programming, including general computer science principles, software engineering, game engines and simulations. I'm most experienced with C#, C++, and Python, and enjoy creating frameworks that other systems or developers can build on.
-
-                            <br><br>Alongside technical skills, I’ve worked in both solo and team projects using agile workflows, which gave me insight into time management, collaboration, and leadership.
-
-                            <br><br>I’m currently looking for a graduate programming role where I can grow as a developer and contribute to meaningful projects.
-
-                            <br><br>Feel free to check out my portfolio below or get in touch via LinkedIn, email, or the contact form. I'd love to connect!  
-                        </p>
-                    <div class="tab-titles">
-                            <p class="tab-links active-link" onclick="opentab('skills')">Skills</p>
-                            <p class="tab-links" onclick="opentab('experience')">Experience</p>
-                            <p class="tab-links" onclick="opentab('education')">Education</p>
-                    </div>
-                    <div class="tab-contents active-tab" id="skills">
-                        <ul>
-                            <li><span class="item-title">C++</span><span class="item-description">Used: Graphics Simulation, Game Development, Software Development. Years: 2-years</span></li>
-                            <li><span class="item-title">C#</span><span class="item-description">Used: Software Development, HCI Systems, Game Development. Years: 5-years</span></li>
-                            <li><span class="item-title">Python</span><span class="item-description">Used: Data Science, AI Development, Software Development. Years: 7-years</span></li>
-                            <li><span class="item-title">HTML/CSS</span><span class="item-description">Used: Basic Website Development. Years: 5-years</span></li>
-                            <li><span class="item-title">Unity</span><span class="item-description">Game Development, Arduino Interfacing. Years: 4-years</span></li>
-                            <li><span class="item-title">Unreal Engine 5</span><span class="item-description">Game Development. Years: 2-years</span></li>
-                            <li><span class="item-title">Agile Workflow</span><span class="item-description">Time Management, Team Management, Daily Standups. Years: 5-years</span></li>
-                        </ul>
-                    </div>
-                    <div class="tab-contents" id="experience">
-                        <ul>
-                            <li><span class="item-title">Circadia</span><span class="item-description">This 2nd year university module lasted 9 months and simulated working inside a small game studio. This taught me how to work with other disciplines, working inside of agile workflow and more.</span></li>
-                            <li><span class="item-title">Co-Operation</span><span class="item-description">This 9 month long 3rd year university module exanded on game development principles. Following agile software development practices and utilising teamwork across different disciplines.</span></li>
-                        </ul>
-                    </div> 
-                    <div class="tab-contents" id="education">
-                        <ul>
-                            <li><span class="item-title">Falmouth University - Computing for Games</span><span class="item-description">Over this 3 year course I learnt about professional programming, technical writing and academic writing. This had a focus on game but many modules allowed me to focus outside of this.</span></li>
-                            <li><span class="item-title">Longsands Sixth Form - Double Computing Btec</span><span class="item-description">Over two years I completed a double Computing certification. This allowed me to gain knowledge in many different fields and work on my technical writing ability.</span></li>
-                        </ul>
-                    </div>
-            </div>
-        </div>
-    </div>
-
-<!------------------------------------------Services---------------------------------------------->
-<!--<div id="services">
-    <div class="container">
-        <h1 class="sub-title">My Services</h1>
-        <div class="services-list">
+    <!-- Left panel with name and projects-->
+    <div class="dashboard-container">
+        <div class="left-panel">
             <div>
-                <h2>Service 1</h2>
-                <p>Service 1 lalala</p>
-                <a href="#">learn more</a>
+                <h2>Game Programmer and Software Engineer</h2>
+                <h1>Ben Adams</h1>
+                <p>I'm Ben Adams, an upper 2:1 Computing for Games graduate from Falmouth University. I am strongly passionate about game programming and project management so I am looking for an entry role into a career I can give my all.</p>
             </div>
-            <div>
-                <h2>Service 2</h2>
-                <p>Service 2 lalala</p>
-                <a href="#">learn more</a>
-            </div>
-            <div>
-                <h2>Service 3</h2>
-                <p>Service 3 lalala</p>
-                <a href="#">learn more</a>
-            </div>
-        </div>
-    </div>
-</div>    -->
-<!------------------------------------------Portfolio-------------------------------------------->
-<div id="portfolio">
-    <div class="container">
-        <h1 class="sub-title">My Work</h1>
-        <div class="work-list">
-            <div class="work">
-                <img src="images/Lorenz.PNG">
-                <div class="layer">
-                    <h3>OpenGL Lorenz System</h3>
-                    <p>This is a OpenGL project where I learnt how to create a particle system in OpenGL, used mathmatical principles to change it into a simulation and used Visual Studio profiling tools to optimise the project</p>
-                    <a href="https://github.com/benada482/OpenGL-LorenzSystem/tree/main"><i class="fa-solid fa-up-right-from-square"></i></a>
+            <!-- List Of Categories-->
+            <div class="nav-group">
+                <div class="nav-item" onclick="openPanel('panel-projects')">
+                    <span>Projects</span>
+                    <small>MAIN PROJECTS</small>
                 </div>
-            </div>
-            <div class="work">
-                <img src="images/Dissertation.PNG">
-                <div class="layer">
-                    <h3>Can Users Recognise Personality in Chatbots</h3>
-                    <p>This project which I wrote my Bachelors dissertation. It provides unique research into chatbot technologies and how users percive personality traits as defined by the HEXACO standard. This project used Ollama, Deepseek r-1, lang-chain and Python to create and prompt a unique chatbot using generative technology. R was used to analyse participant collected information using t-tests.</p>
-                    <a href="https://github.com/benada482/Dissertation"><i class="fa-solid fa-up-right-from-square"></i></a>
+                <div class="nav-item" onclick="openPanel('panel-skills')">
+                    <span>Skills</span>
+                    <small>SKILLS PAGES</small>
                 </div>
-            </div>
-            <div class="work">
-                <img src="images/coop.png">
-                <div class="layer">
-                    <h3>Co-Operation</h3>
-                    <p>A team project using 10 members of multiple disiplines to make a co-op game. It furthered my skills in Unreal Engine 5, Team Leadership and Agile Workflow.</p>
-                    <a href="https://cheese-dynamics-games.itch.io/cooperation"><i class="fa-solid fa-up-right-from-square"></i></a>
+                <div class="nav-item" onclick="openPanel('panel-experience')">
+                    <span>Education & Experience</span>
+                    <small>EDUCATION DETAILS AND TIMELINE</small>
+                </div>
+                <div class="nav-item" onclick="openPanel('panel-contact')">
+                    <span>Contact</span>
+                    <small>CONTACT FORM</small>
                 </div>
             </div>
 
-            <!--Hidden items-->
-            <div class="work extra-work">
-                <img src="images/circadia.png">
-                <div class="layer">
-                    <h3>Circadia</h3>
-                    <p>My 2nd year group project to make a world switching puzzle game. This was the start of my learning in Unreal Engine 5.  It continued to develop Team Leadership and Agile Workflow from previous years.</p>
-                    <a href="https://capybara-tower.itch.io/circadia"><i class="fa-solid fa-up-right-from-square"></i></a>
+            <div class="sidebar-utility-footer">
+                <div class="document-links">
+                    <a href="https://www.linkedin.com/in/ben-adams-53aa44251/" target="_blank" class="util-link">
+                        [ LINKEDIN <small>↗</small> ]
+                    </a>
+                    <a href="images/CV-BenAdams.pdf" download="CV-BenAdams.pdf" class="util-link">
+                        [ DOWNLOAD CV <small>⤓</small> ]
+                    </a>
                 </div>
             </div>
 
-            <div class="work extra-work">
-                <img src="images/BossFightPoster.PNG">
-                <div class="layer">
-                    <h3>UE5 Boss Fight</h3>
-                    <p>This university module was my first experience within Unreal Engine 5. This taught me basic concepts, AI programming for games and how to optimise inside of the UE5 engine. Creating an academic poster of optimisation as well as the boss fight in engine.</p>
-                    <a href="https://github.com/benada482/UE5-BossFight"><i class="fa-solid fa-up-right-from-square"></i></a>
-                </div>
-            </div>
-
-            <div class="work extra-work">
-                <img src="images/MicroRTSPaper.PNG">
-                <div class="layer">
-                    <h3>MicroRTS Paper</h3>
-                    <p>This academic paper aimed to compare the amount of time an AI agent took to think compared to its winrate inside of the game MicroRTS.</p>
-                    <a href="https://github.com/benada482/MicroRTS-paper"><i class="fa-solid fa-up-right-from-square"></i></a>
-                </div>
-            </div>
-
-            <!--<div class="work extra-work">
-                <img src="images/coop.png">
-                <div class="layer">
-                    <h3>Co-Operation</h3>
-                    <p>A team project using 10 members of multiple disiplines to make a co-op game. It furthered my skills in Unreal Engine 5, Team Leadership and Agile Workflow.</p>
-                    <a href="https://cheese-dynamics-games.itch.io/cooperation"><i class="fa-solid fa-up-right-from-square"></i></a>
-                </div>
-            </div>
-
-            <div class="work extra-work">
-                <img src="images/coop.png">
-                <div class="layer">
-                    <h3>Co-Operation</h3>
-                    <p>A team project using 10 members of multiple disiplines to make a co-op game. It furthered my skills in Unreal Engine 5, Team Leadership and Agile Workflow.</p>
-                    <a href="https://cheese-dynamics-games.itch.io/cooperation"><i class="fa-solid fa-up-right-from-square"></i></a>
-                </div>
-            </div>
-            <div class="work extra-work">
-                <img src="images/coop.png">
-                <div class="layer">
-                   <h3>Co-Operation</h3>
-                    <p>A team project using 10 members of multiple disiplines to make a co-op game. It furthered my skills in Unreal Engine 5, Team Leadership and Agile Workflow.</p>
-                    <a href="https://cheese-dynamics-games.itch.io/cooperation"><i class="fa-solid fa-up-right-from-square"></i></a>
-                </div>
-            </div> -->
+            <!-- Comment at bottom of page for style-->
+            <p style="font-size: 0.75rem; font-family: sans-serif; letter-spacing: 0.1em; color: rgba(223, 177, 65, 0.4);">
+                © 2026 Ben Adams. All rights reserved.
+            </p>
         </div>
 
-        <a href="#" class="btn" id="toggle-btn">See more</a>
-    </div>
-</div>
-<!------------------------------------------Contact-------------------------------------------->
-<div id="contact">
-    <div class="container">
-        <div class="row">
-            <div class="contact-left">
-                <h1 class="sub-title">Contact Me</h1>
-                <p><i class="fa-solid fa-envelope"></i>ben.ada482@gmail.com</p>
-                <div class="social-icons">
-                    <a href="https://www.linkedin.com/in/ben-adams-53aa44251/"><i class="fa-brands fa-linkedin"></i></a>
-                </div>
+        <!-- Window to simulation-->
+        <div class="simulation-view">
+            <canvas id="lorenz-canvas"></canvas>
+            <div class="scope-overlay"></div>
+        </div>
+
+          <!-- Projects Panel -->
+        <div id="panel-projects" class="content-overlay-panel">
+            <button class ="close-panel-btn" onclick="closeAllPanels()">CLOSE OVERLAY X</button>
+            <h3>Projects</h3>
+            <p style="margin-bottom: 2rem;"> Select project to view further details, links to repos and pages.</p>
+
+            <div class="nav-item" onclick="openPanel('project-graphics-engine')" style="margin-bottom: 1.5rem;">
+                <span>OpenGL and C++ Graphics Simulation</span>
+                <small>Further Details ↗</small>
+            </div>
+
+            <div class="nav-item" onclick="openPanel('project-game-coop')" style="margin-bottom: 1.5rem;">
+                <span>UE5 Game Cooperation</span>
+                <small>Further Details ↗</small>
+            </div>
+         </div>
+
+         <div id="project-graphics-engine" class="content-overlay-panel">
+            <button class="close-panel-btn" onclick="openPanel('panel-projects')">← BACK TO PROJECTS</button>
+            <h3>OpenGL and C++ Graphics Simulation</h3>
+            <div class="timeline-meta" style="margin-bottom: 1.5rem;">SYSTEM ARCHITECTURE DEEP-DIVE</div>
+
+            <div class="project-media-placeholder">
+                <iframe src="https://www.youtube-nocookie.com/embed/nEovCqHCbrs?rel=0&modestbranding=1"
+                    title="OpenGL Lorenz Simulation"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowfullscreen>
+                </iframe>
+            </div>
+            <!--Explain how it was made, the process and etc.-->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">Technical Implementation</h4>
+                <p>Throughout this module I was tasked with 4 worksheets to complete. Each building off of the last one. worksheet one involved using the basic setup provided to render 3D models 
+                    into the scene. I was then tasked at creating camera controls and other basic features to explore the usages of C++ and OpenGL. Worksheet 2 involved researching a simulation or graphic to create. It was
+                    at this stage that I decided to work to make a Lorenz Attractor using particles. At this stage I created a simple 2D particle simulation where particles were just pixels on the screen and would move about
+                    randomly until they hit the edge of the screen. This had an effect like static but solidified my knowledge within this subject. During this module optimisation was a strong factor so I started to profile my project
+                    inside of Visual Studio, tracking CPU usage, memory usage and graphing the amount of particles to FPS value. It was at this stage that I found the FPS was stable around 160 until around 125,000 particles where the
+                    performance would drastically drop at each additional pixel, I tested to around 100000 pixels which ran at around 15FPS.
+                    <br><br>
+                    After worksheet 2 where I created a simple 2D prototype and researched the area I wanted to simulate I started in worksheet 3. This is where I made a major change to simulate it as a 3D enviroment rather than keeping
+                    it as 2D. I decided on this due to the challenge and the benefit to having more control over the simulation. At this stage the Lorenz Attractor was rendered using particles following the mathematical equations. They 
+                    start close each other with a random difference between 0.0 and 0.09. This creates a trail of particles that closely stick together and slowly the chaos equation takes over to make the particles form the attractor by
+                    the subtle differnences that compound within the equation. Since making this code operate in a 3D space and creating an update loop that ran the equations each frame for movement the performace dropped significantly.
+                    Through profiling I found that the amount of particles that could be rendered before dropping below 60FPS was now even less. The CPU showed that it spent most of its time making calls and waiting for the GPU to respond.
+                    This showed me that hthe render data was being handled inefficiently between the CPU and GPU, looking at the CPU thread activity in task manager I could see that some threads were utilised much more than others. This 
+                    large spike on some threads and on not others created times where the program would stall waiting for calls from busy threads. At this stage I also profiled the memory to ensure that there were no memory leaks and that
+                    my C++ code was correctly setup to garbage collect.
+                    <br><br>
+                    During worksheet 4 the aim of this was to optimise and create user interaction. To optimise the project I looked at what the profiling from worksheet 3 told me and improved on the parst slowing my program down.
+                    I used multithreading techniques and utilised buffer objects like VBOs to improve rendering. I also locked the programs FPS to 60 to ensure that when users changed the amount of particles to render the program would
+                    not speed up or slow down. During performance testing I turned this off though to ensure accurate frame rates. I utilised VBOs to fix the previous issues where the CPU would spend 99% of time calling the GPU, VBOs allowed
+                    me to send the data within buffers/packages. This reduced the call time since the particle data was sent at once rather than individually. This also utilised writing directly to the GPU buffer, rather than writing to the CPU buffer,
+                    modifying it, sending it to GPU buffer and then returning the data. Packaging the data like this improved performance since GPUs specialise at parallel processing. Multithreading improved my mathematical calculations and loops. 
+                    I then tested the FPS versus the amount of particles and found it performed much better than I expected now. At 1 million particles it was running at 40FPS. Due to this I decided to test further, at 2 million it drops to 20FPS and at
+                    3 million it runs at 10FPS. This shows a clear improvment path since it halfs each million particles, but further optimisation was not needed for this project. The Visual Studio profiler showed that the external call to the GPU 
+                    was no longer the top calls. Writing directly to the GPU memory reduced buffering to improve this performance. The GPU calls could be reduced further but it was out of scope for this project. The equation loop was now the highest in this
+                    call list, which I identified could be precalculated but decided it was out of scope for the timelimit. To create user interaction I implemented ImGui, this allowed me to connected visual interface sliders to allow the users to change 
+                    the live values being used in the code. It allowed the user to change the amount of particles and the three constants that are part of the equations, this allowed for unique effects with the particles pathing changing with each user interaction.
+                </p>
+            </div>
+            <!--What went wrong. Why was it difficult.-->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">The Challenge</h4>
+                <p>During this project I struggled during multiple stages. At first I had issues deciding what to make, my original idea was to make a hair simulation that I could utilise later on to create realistic hair in games.
+                    I found papers and examples of this in concept, with just connecting particles with lines to create a chain like structure. The issue I had was that I could not work out how to make something like that and could
+                    not find any resources to help me understand how this would be programmed. After attempting this and further research I decided to shift my focus to just particles that I also learnt about during my research. This pivot
+                    meant that some of the research I had read and collected was no longer useful but since it was still a similar subject some research was still connected and useful. I also found issues with time management during this project.
+                    This was at a time where I had three modules on, so I was researching for this module, researching for my dissertation and working within my group project meant that I had constant parts to work on and deadlines to meet. To solve
+                    this issue I utilised agile methodologies of creating task boards for myself and creating a schedule where I could work on a module each day on a rotating basis to ensure all of them had the correct amount of time allotted.
+                </p>
+            </div>
+        </div>
+
+        <div id="project-game-coop" class="content-overlay-panel">
+            <button class="close-panel-btn" onclick="openPanel('panel-projects')">← BACK TO PROJECTS</button>
+            <h3>Unreal Engine 5 Game - CoOperation</h3>
+            <div class="timeline-meta" style="margin-bottom: 1.5rem;">SYSTEM ARCHITECTURE DEEP-DIVE</div>
+
+            <div class="project-media-placeholder">
+                <iframe width="560" height="315" 
+                src="https://www.youtube-nocookie.com/embed/SeHjGAuG6UE?si=64tpK5Lz8ozZyE1K" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+            </iframe>
+            </div>
+            <!--Explain how it was made, the process and etc.-->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">Technical Implementation</h4>
+                <p>
+                    I worked on Co-Operation as the senior programmer, working with one other programmer, a writer, two designers, freelance animators and four artists. My job was to support all disciplines with engine usage,
+                    supporting the other programmer learn UE5, creating game systems, rapid prototyping, and to support agile management throughout the project. I was also responsible for stakeholder communication and build creation. Each
+                    week I would create a build, ensuring the process went smoothly and that the build functioned correctly to show our supervisor.
+                    <br><br>
+                    The premise for this game was to create a cooperative game that could be played split screen by players. We started by iterating ideas, creating design documents and mechanics that we wanted to include. It was at
+                    this point that I started prototyping different mechanics. I created a basic patrolling enemy AI, it followed a path that could be placed by designers and when it saw a player would chase after them. During the 
+                    beginning of the project I worked on creating a seamless co-op experience that worked at a fixed camera. The inital pitch for the game was to copy a resident evil style camera where there would be one camera
+                    per room. So at the beginning of the project I worked to set up the enemies, gamestates for co-op, and automatic camera switching on entering a room. 
+                    <br><br>
+                    Later in the project after having many play testing sessions we recieved feedback that pointed us towards a more modern split screen experience, that gave each player a third person camera. Once this playtesting 
+                    session was completed, I quickly made changes to make this prototype. We then played it within the team and had other students test this change. Once we took the feedback and teammembers thoughts on it, we decided
+                    we wanted to keep it and pitched it to our supervisor. This resulted in a major change around four or five months into the project. While this was a big change that caused programming and design to be refactored and
+                    redone, it overall was for the better since it improved the enjoyablity and experience of the game. 
+                    <br><br>
+                    Continuing on in development, since this was an indie team there were not exact roles so many members had multiple roles to take. The writer on our team was also responsible for the UI blueprinting, which I supported through
+                    bugfixing and connecting the user interface to the player and the player variables. I also supported the other programmer in the team in making checkpoints for the level and bugfixing interactables like fuseboxes, buttons and doors.
+                    Towards the end of the project I was responsible for ensuring all features worked as intended and optimising the project. To ensure the project was correctly optimised I had to have constant communication with the art team to 
+                    reduce the poly count on assets, change texture materials, and fixing lighting to ensure a consistent performance. Within this project lighting was one of the biggest issues since it was set in a cyberpunk city, so there 
+                    were a lot of lighting sources and emissive textures creating shadows and lighting calculations. 
+                </p>
+            </div>
+            <!--What went wrong. Why was it difficult.-->
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">The Challenge</h4>
+                <p>
+                    Looking back on this project, I can see that the most difficult parts were due to shifting foundations and unforseen team constraints rather than technical roadblocks. As a whole the team functioned well under pressure and 
+                    work being presented to the team was excellent and of the expected quality. Early on in the project there was an inconsistent core vision in what we were making that lead to communication breakdowns and nobody being sure what others were working on.
+                    This issue made it difficult to find the priorities and caused work to be overwritten on git, while the games identity was still being found. As development progressed this issues were fixed and dissapated, but the issue of external pressure from 
+                    other modules that we all needed to complete disrupted our workflow. While we were able to adapt and work around it this created gaps where members of the team would be waiting for work for longer than expected. Luckily this started to be 
+                    communicated through our daily standups so became less of an issue as we all started to understand how clear communication was needed. Furthermore, we had unexpected events where team members were unable to complete their work, due to events 
+                    out of their control. Dealing with an incomplete team at times meant we had to become highly adaptable, restructuring workloads and cutting the scope where required. Key areas this happened was I as a programmer had to take on 
+                    some of the other programmers responsibilites due to circumstances out of their control but this added more work than I could reasonably complete within the time frame of this project. After meeting as a team, this influenced
+                    our decision to cut our game from four levels to three, cutting a security based level, to ensure the final product was polished and functional. 
+                </p>
+            </div>
+
+            
+
+            <div class="document-links" style="border-top: 1px dashed rgba(200, 111, 67, 0.3); padding-top: 1.5rem;">
+                <a href="https://cheese-dynamics-games.itch.io/cooperation" target="_blank" class="util-link">[ ACCESS ITCHIO PAGE ↗ ]</a>
+            </div>
+        </div>
 
 
-                <div class="cv-buttons">
-                    <a href="images/CV.pdf" download class="btn btn2">Download CV</a>
-                    <a href="images/CVmobile.pdf" download class="btn btn2">Download CV (Best for mobile browsers)</a>
+         <!-- Skills Panel -->
+         <div id="panel-skills" class="content-overlay-panel">
+            <button class ="close-panel-btn" onclick="closeAllPanels()">CLOSE OVERLAY X</button>
+            <h3>Skills</h3>
+            <p>Here are programming languages, skills, software, and methodologies that I know and can effectively use. All of these are things I have experience in and can confidently use.</p>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h4>Programming Languages</h4>
+                    <ul><li>C++</li><li>C#</li><li>Python</li><li>HTML/CSS</li><li>SQL</li><li>R</li><li>Unreal Engine 5 Blueprints</li></ul>
                 </div>
+                <div class="skill-card">
+                    <h4>Software</h4>
+                    <ul><li>Unreal Engine 5</li><li>Unity</li><li>OpenGL</li><li>Git/Version Control</li><li>R Studio</li></ul>
+                </div>
+                <div class="skill-card">
+                        <h4>Methodologies</h4>
+                        <ul><li>Agile Pipelines</li><li>Scrum</li><li>Kanban(Trello)</li><li>Technical Documentation</li><li>Data Visulisation</li></ul>
+                </div>
+            </div>
+         </div>
+
+        <!--Experience Panel-->
+        <div id="panel-experience" class="content-overlay-panel">
+                <button class="close-panel-btn" onclick="closeAllPanels()">CLOSE OVERLAY X</button>
+                <h3>Academic & Development Timelines</h3>
                 
+                <div class="timeline-item">
+                    <div class="timeline-meta">UNIVERSITY ACADEMIC // 2022 - 2025</div>
+                    <div class="timeline-title">BSc(Hons) Computing for Games</div>
+                    <p>I received an upper 2:1 in the course Computing for Games from Falmouth University. 
+                    I completed modules on programming, mathematics and game programming. During my time there I also had the opportunity to refine my project managment skills through group projects.
+                    Key modules that I did are: Data Fundamentals, Computational Mathematics, Graphics and Simulations, Major Collaboration, Dissertation (To What Extent are Users Able to Recognise Personality Traits from a Chatbot?) 
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-meta">SIXTH FORM // 2020-2022</div>
+                    <div class="timeline-title"> Computing For Creative Industries BTEC </div>
+                    <p>Over two years I interacted with many different technologies and gained valuable experience adapting to new technologies and ideas. I completed modules such as: Planning and Management of Computing Projects,
+                        IT Systems Security, Human-Computer Interaction, Software Development, Computer Games Development, and Website Development. Completing these modules and more taught me how to quickly adapt and learn to new 
+                        ways of thinking and new technologies. This experience has improved my skill over the years by allowing me to learn quickly, work resilliently, and it improved my ability to work independently.
+                    </p>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-meta">CHEESE DYNAMICS // 2025 - PRESENT </div>
+                    <div class="timeline-title"> Simulated Industry Project </div>
+                    <p>During my final year at University I worked with nine other team memebers during a module to simulate an industry enviroment for game development. This experience strengthed my skills in programming inside Unreal Engine 5.
+                        As part of the module it involved working with different disciplines, so I worked at effectively communicating with designers, artists, animators, programmers, and stakeholders. I worked  as part of this indie team to 
+                        conceptualise and iterate a game idea. Then I helped program the games functionality while also working to manage the team within an agile setting. As part of my responsibilites I would create presentations to show stakeholders,
+                        attend daily standups, and attend weekly meetings with supervisors to pitch progress, ideas, and what blockers teammembers had to ensure development ran smoothly. Since graudating we have contiuned to create indie games and work together.
+                    </p>
+                </div>
             </div>
-            <div class="contact-right">
-                <form action="https://api.web3forms.com/submit" id="form" method="POST">
-                    <input type="hidden" name="access_key" value="a8534a6b-1fc7-425a-8252-d2dbc1fedbee">
-                    <input type="text" name="Name" placeholder="Your Name" required>
-                    <input type="email" name="email" placeholder="Your Email" required>
-                    <textarea name="Message" rows="6" placeholder="Your Message"></textarea>
-                    <!--<div class="h-captcha" data-captcha="true"></div>-->
-                    <button type="submit" class="btn btn2">Submit</button> 
+
+
+        <!--Contact Form-->
+        <div id="panel-contact" class="content-overlay-panel">
+                <button class="close-panel-btn" onclick="closeAllPanels()">CLOSE OVERLAY X</button>
+                <h3>Send a Message to me</h3>
+                <p style="margin-bottom: 1.5rem;">If you have any questions, queries, offers, jobs, or just want to contact me send a message!</p>
+                
+                <form id="form" action="https://formspree.io/f/your_id" method="POST" class="contact-form">
+                    <div class="form-group">
+                        <label for="user-name">Your Name</label>
+                        <input type="text" id="user-name" name="name" class="form-input" placeholder="Your Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-email">Your Email Address</label>
+                        <input type="email" id="user-email" name="email" class="form-input" placeholder="email@domain.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-message">Your Message</label>
+                        <textarea id="user-message" name="message" class="form-input" placeholder="Type your message contents..." required></textarea>
+                    </div>
+                    <button type="submit" class="submit-btn">Send Message! ↗</button>
                 </form>
             </div>
+        
+
+        <!-- Sliders to Control Simulation-->
+        <div class="bottom-panel">
+            <div class="sliders-deck">
+                <div class="control-widget">
+                    <div class="control-label"><span>Atomospheric Fluidity (σ)</span><span class="control-value" id="val-sigma">10.0</span></div>
+                    <input type="range" id="input-sigma" min="1" max="25" step="0.1" value="10">
+                </div>
+                <div class="control-widget">
+                    <div class="control-label"><span>Thermal Excitation (ρ)</span><span class="control-value" id="val-rho">28.0</span></div>
+                    <input type="range" id="input-rho" min="5" max="45" step="0.1" value="28">
+                </div>
+                <div class="control-widget">
+                    <div class="control-label"><span>Structural Friction (β)</span><span class="control-value" id="val-beta">2.67</span></div>
+                    <input type="range" id="input-beta" min="0.5" max="5" step="0.05" value="2.67">
+                </div>
+            </div>
+            <div style="max-width: 220px; text-align: right;">
+                <p style="font-size: 0.8rem; font-style: italic;">Memory pre-calculation loop for low CPU footprint.</p>
+            </div>
         </div>
+
     </div>
-    <div class="copyright">
-        <p>Copyright © Ben.</p>
-    </div>
-</div>
 
-<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "0fca075868fa402592507c77976492a6"}'></script><!-- End Cloudflare Web Analytics -->
+    <script>
+        //Set up variables
+        const canvas = document.getElementById('lorenz-canvas');
+        const ctx = canvas.getContext('2d');
+        const viewContainer = document.querySelector('.simulation-view');
 
-
-<script>
-
-    var tablinks = document.getElementsByClassName("tab-links");
-    var tabcontents = document.getElementsByClassName("tab-contents");
-    function opentab(tabname){
-        for(tablink of tablinks){
-            tablink.classList.remove("active-link");
+        //Resize to users screen size
+        function resize() {
+            canvas.width = viewContainer.clientWidth;
+            canvas.height = viewContainer.clientHeight;
         }
-        for(tabcontent of tabcontents){
-            tabcontent.classList.remove("active-tab");
+        window.addEventListener('resize', resize);
+        resize();
+
+        //Equation constants
+        let sigma = 10.0; let rho = 28.0; let beta = 8.0/3.0;
+
+        //array for precalculation of path
+        let trajectoryPath = [];
+        const maxPathPoints = 2500;
+
+        //Precalculate
+        function precalculateLorenz() {
+            trajectoryPath = [];
+            let x = 0.1, y = 0, z = 20;
+            const dt = 0.0055;
+
+            //generate static coordinates once
+            for (let i = 0; i < maxPathPoints; i++)
+            {
+                let dx = (sigma * (y - x)) * dt;
+                let dy = (x * (rho - z) - y) * dt;
+                let dz = (x * y - beta * z) * dt;
+                x += dx; y += dy; z += dz;
+
+                trajectoryPath.push({x: x, y: y, z: z - (rho - 3)});
+            }
         }
-        event.currentTarget.classList.add("active-link");
-        document.getElementById(tabname).classList.add("active-tab");
-    }
 
-</script>
+        //regenerate when parameters are changed by user
+        function updateParams()
+        {
+            precalculateLorenz();
+        }
 
-<!--<script src="https://web3forms.com/client/script.js" async defer></script>
+        //listeners for if the values are changed
+        document.getElementById('input-sigma').addEventListener('input', (e) => { sigma = parseFloat(e.target.value); document.getElementById('val-sigma').innerText = sigma.toFixed(1); updateParams(); });
+        document.getElementById('input-rho').addEventListener('input', (e) => { rho = parseFloat(e.target.value); document.getElementById('val-rho').innerText = rho.toFixed(1); updateParams(); });
+        document.getElementById('input-beta').addEventListener('input', (e) => { beta = parseFloat(e.target.value); document.getElementById('val-beta').innerText = beta.toFixed(2); updateParams(); });
 
-<script>
-const form = document.getElementById('form');
+        //build particles
+        const numParticles = 450; //low count for performance
+        const particles = [];
 
-form.addEventListener('submit', function(e) {
+        for(let i = 0; i < numParticles; i++)
+        {
+            let roll = Math.random();
+            let pColor = `rgba(223, 177, 65, ${Math.random() * 0.4 + 0.35})`;
+            if (roll > 0.7) pColor = `rgba(200, 111, 67, ${Math.random() * 0.3 + 0.35})`;
+            if (roll > 0.9) pColor = `rgba(58, 232, 131, ${Math.random() * 0.6 + 0.45})`;
 
-    const hCaptcha = form.querySelector('textarea[name=h-captcha-response]').value;
+            //add particles to array
+            particles.push({
+                //Each particle starts at a different offset on the path
+                pathOffset: Math.floor(Math.random() * maxPathPoints),
+                speed: Math.floor(Math.random() * 2) + 1,
+                color: pColor,
+                size: Math.random() * 1.5 + 0.7
+            });
+        }
 
-    if (!hCaptcha) {
-        e.preventDefault();
-        alert("Please fill out captcha field")
-        return
-    }
-});
-</script>-->
+        let angleX = 0.3; let angleY = 0.6;
+        let targetAngleX = 0.3; let targetAngleY = 0.6;
 
-<script>
-  const toggleBtn = document.getElementById("toggle-btn");
-  const extraItems = document.querySelectorAll(".extra-work");
-  let showing = false;
-
-  toggleBtn.addEventListener("click", (e) => {
-    e.preventDefault();
-    showing = !showing;
-
-    const itemsPerRow = 3;
-    const totalItems = extraItems.length;
-
-    for (let i = 0; i < totalItems; i += itemsPerRow) {
-      const rowItems = Array.from(extraItems).slice(i, i + itemsPerRow);
-
-      setTimeout(() => {
-        rowItems.forEach((item) => {
-          if (showing) {
-            item.classList.add("show");
-          } else {
-            item.classList.remove("show");
-          }
+        //check for mouse movement
+        viewContainer.addEventListener('mousemove', (e) => {
+            const rect = viewContainer.getBoundingClientRect();
+            targetAngleY = ((e.clientX - rect.left) / rect.width - 0.5) * 1.5;
+            targetAngleX = ((e.clientY - rect.top) / rect.height - 0.5) * 1.5;
         });
-      }, i * 150); // Adjust delay between rows here
-    }
+        // Setup touch compatibility for mobile interaction
+        viewContainer.addEventListener('touchmove', (e) => {
+            if(e.touches.length > 0) {
+                const rect = viewContainer.getBoundingClientRect();
+                targetAngleY = ((e.touches[0].clientX - rect.left) / rect.width - 0.5) * 1.5;
+                targetAngleX = ((e.touches[0].clientY - rect.top) / rect.height - 0.5) * 1.5;
+            }
+        }, { passive: true });
 
-    toggleBtn.textContent = showing ? "Show less" : "See more";
-  });
-</script>
+        //Init
+        precalculateLorenz();
 
+        function loop(){
+            //wipe artifacts
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.fillStyle = '#070f09'; // 100% solid, NO alpha transparency
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-<script>
+            //Draw tail layer using multi blend mode
+            ctx.globalCompositeOperation = 'multiply';
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.85)'; // Controls trail length (lower = shorter trails)
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-    var sidemeu = document.getElementById("sidemenu");
+            ctx.globalCompositeOperation = 'screen';
 
-    function openmenu(){
-        sidemeu.style.right = "0";
-    }
+            //ctx.fillStyle = 'rgba(7, 15, 9, 0.2)'; //low alpha, shorter trails easy computationally
+            //ctx.fillRect(0,0, canvas.width, canvas.height);
 
-    function closemenu(){
-        sidemeu.style.right = "-200px";
-    }
+            angleX += (targetAngleX - angleX) * 0.04;
+            angleY += (targetAngleY - angleY) * 0.04;
 
-</script>
+            //cos and sin of angles
+            const cosX = Math.cos(angleX); const sinX = Math.sin(angleX);
+            const cosY = Math.cos(angleY); const sinY = Math.sin(angleY);
 
+            //find center
+            const centerX = canvas.width / 2;
+            const centerY = canvas.height / 2;
+
+            //Set max bounds to the viewport
+            const maxAttractorRadius = 30;
+            const allowedViewSize = Math.min(canvas.width, canvas.height) * 0.75;
+            const strictScale = (allowedViewSize / 2) / maxAttractorRadius;
+
+            //renderLoop, just reads arrays
+            for(let i = 0; i < numParticles; i++)
+            {
+                let p = particles[i];
+                
+                //increment index path
+                p.pathOffset = (p.pathOffset + p.speed) % maxPathPoints;
+                let pathNode = trajectoryPath[p.pathOffset];
+
+                if (!pathNode) continue;
+
+                //3D matrix projection from the cached points
+                let x1 = pathNode.x * cosY - pathNode.z  * sinY;
+                let z1 = pathNode.x * sinY - pathNode.z  * cosY;
+                let y2 = pathNode.y * cosX - z1  * sinX;
+
+                let screenX = centerX + x1 * strictScale;
+                let screenY = centerY - y2 * strictScale;
+
+                ctx.fillStyle = p.color;
+                ctx.beginPath();
+                ctx.arc(screenX, screenY, p.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            requestAnimationFrame(loop);
+        }
+
+        loop();
+
+        //Dynamic Tabs
+        function openPanel(panelID){
+            closeAllPanels();
+            const targetPanel = document.getElementById(panelID);
+            if(targetPanel)
+            {
+                targetPanel.classList.add('active');
+                document.querySelector('.scope-overlay').style.opacity = "0.2";
+            }
+        }
+
+        function closeAllPanels()
+        {
+            document.querySelectorAll('.content-overlay-panel').forEach(panel => {panel.classList.remove('active');});
+            document.querySelector('.scope-overlay').style.opacity = "1";
+        }
+
+    </script>
+
+<!-- Contact Form -->
 <script>
   document.addEventListener("DOMContentLoaded", function () {
     const form = document.getElementById("form");
@@ -322,7 +780,7 @@ form.addEventListener('submit', function(e) {
           method: form.method,
           body: formData,
         });
-
+  
         if (response.ok) {
           // Clear form on successful submission
           form.reset();
