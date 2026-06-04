@@ -225,6 +225,32 @@
             .simulation-view { grid-column: 1; grid-row: 2; height: 400px; }
             .bottom-panel { grid-column: 1; grid-row: 3; flex-direction: column; padding: 1.5rem; gap: 1.5rem; }
             .sliders-deck { flex-direction: column; width: 100%; gap: 1rem; }
+
+            .content-overlay-panel{
+                padding: 2rem 1.5rem;
+            }
+            
+            .content-overlay-panel .close-panel-btn{
+                position: relative;
+                top: 0; right: 0;
+                display: inline-block;
+                margin-bottom: 1.5rem;
+                width: auto;
+            }
+            /* 2. Responsive Video Scale Box */
+            .project-media-container {
+             width: 100% !important;     /* Force full width of the mobile card */
+             max-width: 100%;
+             padding-bottom: 56.25%;     /* Maintains the math-locked 16:9 widescreen ratio */
+             height: 0;
+             margin-left: 0;
+             margin-right: 0;
+            }
+
+            .project-media-container iframe {
+            width: 100% !important;
+            height: 100% !important;
+            }
         }
 
         /* --- SIDEBAR FOOTER UTILITY PROFILE --- */
