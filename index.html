@@ -574,7 +574,8 @@
                 <h3>Send a Message to me</h3>
                 <p style="margin-bottom: 1.5rem;">If you have any questions, queries, offers, jobs, or just want to contact me send a message!</p>
                 
-                <form id="form" action="https://formspree.io/f/your_id" method="POST" class="contact-form">
+                <form id="form" action="https://api.web3forms.com/submit" id="form" method="POST" class="contact-form">
+                    <input type="hidden" name="access_key" value="a8534a6b-1fc7-425a-8252-d2dbc1fedbee">
                     <div class="form-group">
                         <label for="user-name">Your Name</label>
                         <input type="text" id="user-name" name="name" class="form-input" placeholder="Your Name" required>
