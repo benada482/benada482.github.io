@@ -303,28 +303,25 @@
     }
     /* --- PROJECT DETAIL MEDIA BLOCK --- */
     .project-media-placeholder {
+        position: relative;
         width: 100%;
-        height: 280px;
+        padding-bottom: 56.25%;
+        height: 0;
+        overflow: hidden;
         background: rgba(0, 0, 0, 0.5);
         border: 1px solid var(--copper);
-       border-radius: 12px;
-       margin-bottom: 2rem;
-       display: flex;
-       justify-content: center;
-      align-items: center;
+        border-radius: 12px;
+        margin-bottom: 2rem;
     }
-    /* --- PROJECT DETAIL MEDIA BLOCK --- */
-    .project-media-placeholder {
-       width: 100%;
-       height: 280px;
-       background: rgba(0, 0, 0, 0.5);
-       border: 1px solid var(--copper);
-       border-radius: 12px;
-       margin-bottom: 2rem;
-       display: flex;
-       justify-content: center;
-        align-items: center;
+    .project-media-placeholder iframe{
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100% !important;
+        height: 100% !important;
+        border: 0;
     }
+
     </style>
 
 <!-- Main webpage Content -->
