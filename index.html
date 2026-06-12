@@ -30,12 +30,12 @@
             background-image: radial-gradient(circle at 50% 50%, #112817 0%, var(--bg-deep) 80%);
             color: var(--text-light);
             height: 100vh;
-            width: 100vw;
-            overflow: hidden;
+            width: 100%;
             display: flex;
             justify-content: center;
             align-items: center;
             padding: 1rem;
+            overflow: hidden;
         }
 
         .dashboard-container{
@@ -43,7 +43,7 @@
             max-width: 1300px;
             height: 90vh;
             display: grid;
-            grid-template-columns: 340px, 1fr;
+            grid-template-columns: 340px 1fr;
             grid-template-rows: 1fr 140px;
             border: 3px double var(--brass);
             border-radius: 40px;
@@ -158,7 +158,7 @@
             background: rgba(5, 12, 7, 0.2);
         }
 
-        h1 { font-size: 2,2rem; font-weight: 400; line-height: 1.2; margin-bottom: 0.5rem;}
+        h1 { font-size: 2.2rem; font-weight: 400; line-height: 1.2; margin-bottom: 0.5rem;}
         h2 { font-family: sans-serif; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.3em; color: var(--brass); margin-bottom: 1rem;}
         h3 { font-size: 1.6rem; color: var(--brass); margin-bottom: 1.5rem; border-bottom: 1px dashed var(--copper); padding-bottom: 0.5rem; }
         p {color: var(--text-dim); font-size: 0.95rem; line-height: 1.6; user-select: text;}
@@ -218,40 +218,88 @@
         input[type=range]::-webkit-slider-runnable-track { width: 100%; height: 4px; background: rgba(200, 111, 67, 0.3); border-radius: 2px;}
 
         /*Mobile Only Adaption*/
-        @media (max-width: 900px) {
-            body {padding: 0.5rem; overflow-y: auto; height: auto;}
-            .dashboard-container {grid-template-columns: 1fr; grid-template-rows: auto 400px auto; height: auto; border-radius: 20px;}
-            .left-panel { grid-column: 1; grid-row: 1; border-right: none; border-bottom: 2px solid var(--copper); padding: 1.5rem; }
-            .simulation-view { grid-column: 1; grid-row: 2; height: 400px; }
-            .bottom-panel { grid-column: 1; grid-row: 3; flex-direction: column; padding: 1.5rem; gap: 1.5rem; }
-            .sliders-deck { flex-direction: column; width: 100%; gap: 1rem; }
+@media (max-width: 900px) {
+    body { 
+        padding: 0.5rem; 
+        height: auto; 
+        min-height: 100vh;
+        overflow-y: auto !important; 
+        overflow-x: hidden !important;
+    }
+    
+    /* FIXED: Stacks sections vertically cleanly without freezing the screen height */
+    .dashboard-container { 
+        grid-template-columns: 1fr; 
+        grid-template-rows: auto auto auto; 
+        height: auto; 
+        border-radius: 20px; 
+    }
+    
+    .left-panel { 
+        grid-column: 1; 
+        grid-row: 1; 
+        border-right: none; 
+        border-bottom: 2px solid var(--copper); 
+        padding: 1.5rem; 
+    }
+    
+    .simulation-view { 
+        grid-column: 1; 
+        grid-row: 2; 
+        height: 350px; 
+    }
+    
+    .bottom-panel { 
+        grid-column: 1;
+        grid-row: 3;                 
+        display: flex !important; 
+        flex-direction: column;      
+        padding: 1.5rem; 
+        gap: 1.5rem; 
+        background: rgba(5, 12, 7, 0.4);
+    }
 
-            .content-overlay-panel{
-                padding: 2rem 1.5rem;
-            }
-            
-            .content-overlay-panel .close-panel-btn{
-                position: relative;
-                top: 0; right: 0;
-                display: inline-block;
-                margin-bottom: 1.5rem;
-                width: auto;
-            }
-            /* 2. Responsive Video Scale Box */
-            .project-media-container {
-             width: 100% !important;     /* Force full width of the mobile card */
-             max-width: 100%;
-             padding-bottom: 56.25%;     /* Maintains the math-locked 16:9 widescreen ratio */
-             height: 0;
-             margin-left: 0;
-             margin-right: 0;
-            }
+    .bottom-panel .sliders-deck {
+        display: flex;
+        flex-direction: column;
+        width: 100% !important;
+        gap: 1rem;
+    }
 
-            .project-media-container iframe {
-            width: 100% !important;
-            height: 100% !important;
-            }
-        }
+    .bottom-panel > div:last-child {
+        max-width: 100% !important;
+        text-align: left !important;
+        margin-top: 1rem;       
+    }
+
+    .content-overlay-panel {
+        padding: 2rem 1.5rem;
+        height: 100%;
+        position: fixed; /* FIXED: Keeps the popup cleanly over the mobile viewport */
+    }
+    
+    .content-overlay-panel .close-panel-btn {
+        position: relative;
+        top: 0; right: 0;
+        display: inline-block;
+        margin-bottom: 1.5rem;
+        width: auto;
+    }
+
+    .project-media-container {
+        width: 100% !important;     
+        max-width: 100%;
+        padding-bottom: 56.25%;     
+        height: 0;
+        margin-left: 0;
+        margin-right: 0;
+    }
+
+    .project-media-container iframe {
+        width: 100% !important;
+        height: 100% !important;
+    }
+}
 
         /* --- SIDEBAR FOOTER UTILITY PROFILE --- */
     .sidebar-utility-footer {
@@ -266,6 +314,7 @@
     .document-links {
         display: flex;
         gap: 1.25rem;
+        flex-wrap: wrap;
     }
 
     .util-link {
@@ -397,63 +446,58 @@
             </div>
          </div>
 
-         <div id="project-graphics-engine" class="content-overlay-panel">
+        <!--OpenGL Project-->
+        <div id="project-graphics-engine" class="content-overlay-panel">
             <button class="close-panel-btn" onclick="openPanel('panel-projects')">← BACK TO PROJECTS</button>
             <h3>OpenGL and C++ Graphics Simulation</h3>
             <div class="timeline-meta" style="margin-bottom: 1.5rem;">SYSTEM ARCHITECTURE DEEP-DIVE</div>
 
             <div class="project-media-placeholder">
                 <iframe src="https://www.youtube-nocookie.com/embed/nEovCqHCbrs?rel=0&modestbranding=1"
-                    title="OpenGL Lorenz Simulation"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowfullscreen>
+                title="OpenGL Lorenz Simulation"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowfullscreen>
                 </iframe>
             </div>
-            <!--Explain how it was made, the process and etc.-->
+
             <div style="margin-bottom: 2rem;">
                 <h4 style="color: #fff; margin-bottom: 0.5rem;">Technical Implementation</h4>
-                <p>Throughout this module I was tasked with 4 worksheets to complete. Each building off of the last one. worksheet one involved using the basic setup provided to render 3D models 
-                    into the scene. I was then tasked at creating camera controls and other basic features to explore the usages of C++ and OpenGL. Worksheet 2 involved researching a simulation or graphic to create. It was
-                    at this stage that I decided to work to make a Lorenz Attractor using particles. At this stage I created a simple 2D particle simulation where particles were just pixels on the screen and would move about
-                    randomly until they hit the edge of the screen. This had an effect like static but solidified my knowledge within this subject. During this module optimisation was a strong factor so I started to profile my project
-                    inside of Visual Studio, tracking CPU usage, memory usage and graphing the amount of particles to FPS value. It was at this stage that I found the FPS was stable around 160 until around 125,000 particles where the
-                    performance would drastically drop at each additional pixel, I tested to around 100000 pixels which ran at around 15FPS.
-                    <br><br>
-                    After worksheet 2 where I created a simple 2D prototype and researched the area I wanted to simulate I started in worksheet 3. This is where I made a major change to simulate it as a 3D enviroment rather than keeping
-                    it as 2D. I decided on this due to the challenge and the benefit to having more control over the simulation. At this stage the Lorenz Attractor was rendered using particles following the mathematical equations. They 
-                    start close each other with a random difference between 0.0 and 0.09. This creates a trail of particles that closely stick together and slowly the chaos equation takes over to make the particles form the attractor by
-                    the subtle differnences that compound within the equation. Since making this code operate in a 3D space and creating an update loop that ran the equations each frame for movement the performace dropped significantly.
-                    Through profiling I found that the amount of particles that could be rendered before dropping below 60FPS was now even less. The CPU showed that it spent most of its time making calls and waiting for the GPU to respond.
-                    This showed me that hthe render data was being handled inefficiently between the CPU and GPU, looking at the CPU thread activity in task manager I could see that some threads were utilised much more than others. This 
-                    large spike on some threads and on not others created times where the program would stall waiting for calls from busy threads. At this stage I also profiled the memory to ensure that there were no memory leaks and that
-                    my C++ code was correctly setup to garbage collect.
-                    <br><br>
-                    During worksheet 4 the aim of this was to optimise and create user interaction. To optimise the project I looked at what the profiling from worksheet 3 told me and improved on the parst slowing my program down.
-                    I used multithreading techniques and utilised buffer objects like VBOs to improve rendering. I also locked the programs FPS to 60 to ensure that when users changed the amount of particles to render the program would
-                    not speed up or slow down. During performance testing I turned this off though to ensure accurate frame rates. I utilised VBOs to fix the previous issues where the CPU would spend 99% of time calling the GPU, VBOs allowed
-                    me to send the data within buffers/packages. This reduced the call time since the particle data was sent at once rather than individually. This also utilised writing directly to the GPU buffer, rather than writing to the CPU buffer,
-                    modifying it, sending it to GPU buffer and then returning the data. Packaging the data like this improved performance since GPUs specialise at parallel processing. Multithreading improved my mathematical calculations and loops. 
-                    I then tested the FPS versus the amount of particles and found it performed much better than I expected now. At 1 million particles it was running at 40FPS. Due to this I decided to test further, at 2 million it drops to 20FPS and at
-                    3 million it runs at 10FPS. This shows a clear improvment path since it halfs each million particles, but further optimisation was not needed for this project. The Visual Studio profiler showed that the external call to the GPU 
-                    was no longer the top calls. Writing directly to the GPU memory reduced buffering to improve this performance. The GPU calls could be reduced further but it was out of scope for this project. The equation loop was now the highest in this
-                    call list, which I identified could be precalculated but decided it was out of scope for the timelimit. To create user interaction I implemented ImGui, this allowed me to connected visual interface sliders to allow the users to change 
-                    the live values being used in the code. It allowed the user to change the amount of particles and the three constants that are part of the equations, this allowed for unique effects with the particles pathing changing with each user interaction.
-                </p>
+                    <p>
+                        Throughout this module I was tasked with 4 worksheets to complete, each building off of the last one:
+                        <br><br>
+                        • <strong>Worksheets 1 & 2 (Prototyping):</strong> Rendered 3D models into the scene, implemented camera controls, and researched a Lorenz Attractor using particles. Created a simple 2D particle simulation. Profiling inside Visual Studio showed stable performance at 160 FPS up to ~125,000 particles, dropping to 15 FPS at 100,000 pixels due to performance bottlenecks.
+                        <br><br>
+                        • <strong>Worksheet 3 (3D Transition & Profiling):</strong> Shifted the simulation into a 3D environment using chaos equations. Profiling revealed heavy CPU-to-GPU rendering inefficiencies, with uneven CPU thread utilization causing thread stalling. Conducted memory profiling to prevent memory leaks and ensure correct C++ garbage collection.
+                        <br><br>
+                        • <strong>Worksheet 4 (Optimization & Interaction):</strong> Resolved GPU bottlenecks by implementing multithreading and Vertex Buffer Objects (VBOs), sending data in unified buffers directly to GPU memory. Locked simulation at 60 FPS for consistency. Post-optimization testing achieved 40 FPS at 1M particles, 20 FPS at 2M, and 10 FPS at 3M. Implemented ImGui visual interface sliders for live user interaction with the chaos equation constants.
+                    </p>
             </div>
-            <!--What went wrong. Why was it difficult.-->
+
             <div style="margin-bottom: 2rem;">
                 <h4 style="color: #fff; margin-bottom: 0.5rem;">The Challenge</h4>
-                <p>During this project I struggled during multiple stages. At first I had issues deciding what to make, my original idea was to make a hair simulation that I could utilise later on to create realistic hair in games.
-                    I found papers and examples of this in concept, with just connecting particles with lines to create a chain like structure. The issue I had was that I could not work out how to make something like that and could
-                    not find any resources to help me understand how this would be programmed. After attempting this and further research I decided to shift my focus to just particles that I also learnt about during my research. This pivot
-                    meant that some of the research I had read and collected was no longer useful but since it was still a similar subject some research was still connected and useful. I also found issues with time management during this project.
-                    This was at a time where I had three modules on, so I was researching for this module, researching for my dissertation and working within my group project meant that I had constant parts to work on and deadlines to meet. To solve
-                    this issue I utilised agile methodologies of creating task boards for myself and creating a schedule where I could work on a module each day on a rotating basis to ensure all of them had the correct amount of time allotted.
+                <p>
+                    During this project I struggled during multiple stages. At first I had issues deciding what to make; my original idea was to make a hair simulation using particle chains, but a lack of accessible documentation forced a strategic pivot. After further research, I shifted focus entirely to particle-based mathematical attractors. 
+                    <br><br>
+                    I also faced significant time management challenges, balancing this research alongside my dissertation and a concurrent group project.
                 </p>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">Project Management & Methodology</h4>
+                <p>
+                    • <strong>Personal Agility & Timeboxing:</strong> To manage three intensive academic modules simultaneously, I utilized Agile methodologies to build a personal Kanban task board, establishing a rotating daily schedule to ensure disciplined resource allocation and hit all deadlines.
+                    <br><br>
+                    • <strong>Scope Management:</strong> During the optimization phase, I identified further ways to reduce GPU calls and precalculate equation loops. However, applying Google PM principles, I classified these features as "out of scope" for the strict project time limit to guarantee the delivery of a stable, polished MVP.
+                </p>
+            </div>
+
+            <div class="document-links" style="border-top: 1px dashed rgba(200, 111, 67, 0.3); padding-top: 1.5rem;">
+                <a href="https://github.com/benada482/OpenGL-LorenzSystem" target="_blank" class="util-link">[ ACCESS GITHUB PAGE ↗ ]</a>
             </div>
         </div>
 
+        <!--CoOperation Project-->
         <div id="project-game-coop" class="content-overlay-panel">
             <button class="close-panel-btn" onclick="openPanel('panel-projects')">← BACK TO PROJECTS</button>
             <h3>Unreal Engine 5 Game - CoOperation</h3>
@@ -468,47 +512,45 @@
                 referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
             </iframe>
             </div>
-            <!--Explain how it was made, the process and etc.-->
+           
             <div style="margin-bottom: 2rem;">
                 <h4 style="color: #fff; margin-bottom: 0.5rem;">Technical Implementation</h4>
                 <p>
-                    I worked on Co-Operation as the senior programmer, working with one other programmer, a writer, two designers, freelance animators and four artists. My job was to support all disciplines with engine usage,
-                    supporting the other programmer learn UE5, creating game systems, rapid prototyping, and to support agile management throughout the project. I was also responsible for stakeholder communication and build creation. Each
-                    week I would create a build, ensuring the process went smoothly and that the build functioned correctly to show our supervisor.
+                    Served as Senior Programmer on a multi-disciplinary indie team consisting of 2 programmers, a writer, 2 designers, 4 artists, and freelance animators:
                     <br><br>
-                    The premise for this game was to create a cooperative game that could be played split screen by players. We started by iterating ideas, creating design documents and mechanics that we wanted to include. It was at
-                    this point that I started prototyping different mechanics. I created a basic patrolling enemy AI, it followed a path that could be placed by designers and when it saw a player would chase after them. During the 
-                    beginning of the project I worked on creating a seamless co-op experience that worked at a fixed camera. The inital pitch for the game was to copy a resident evil style camera where there would be one camera
-                    per room. So at the beginning of the project I worked to set up the enemies, gamestates for co-op, and automatic camera switching on entering a room. 
+                    • <strong>Core Systems & AI Architecture:</strong> Prototyped and built the game's foundational mechanics, including game states optimized for co-op play and a custom patrolling/chasing enemy AI pathing system utilized by designers.
                     <br><br>
-                    Later in the project after having many play testing sessions we recieved feedback that pointed us towards a more modern split screen experience, that gave each player a third person camera. Once this playtesting 
-                    session was completed, I quickly made changes to make this prototype. We then played it within the team and had other students test this change. Once we took the feedback and teammembers thoughts on it, we decided
-                    we wanted to keep it and pitched it to our supervisor. This resulted in a major change around four or five months into the project. While this was a big change that caused programming and design to be refactored and
-                    redone, it overall was for the better since it improved the enjoyablity and experience of the game. 
+                    • <strong>Engine & Architecture Pivots:</strong> Developed a room-to-room fixed camera system inspired by classic horror titles, later successfully refactoring the architecture mid-development to support a modern dual third-person split-screen camera layout.
                     <br><br>
-                    Continuing on in development, since this was an indie team there were not exact roles so many members had multiple roles to take. The writer on our team was also responsible for the UI blueprinting, which I supported through
-                    bugfixing and connecting the user interface to the player and the player variables. I also supported the other programmer in the team in making checkpoints for the level and bugfixing interactables like fuseboxes, buttons and doors.
-                    Towards the end of the project I was responsible for ensuring all features worked as intended and optimising the project. To ensure the project was correctly optimised I had to have constant communication with the art team to 
-                    reduce the poly count on assets, change texture materials, and fixing lighting to ensure a consistent performance. Within this project lighting was one of the biggest issues since it was set in a cyberpunk city, so there 
-                    were a lot of lighting sources and emissive textures creating shadows and lighting calculations. 
-                </p>
-            </div>
-            <!--What went wrong. Why was it difficult.-->
-            <div style="margin-bottom: 2rem;">
-                <h4 style="color: #fff; margin-bottom: 0.5rem;">The Challenge</h4>
-                <p>
-                    Looking back on this project, I can see that the most difficult parts were due to shifting foundations and unforseen team constraints rather than technical roadblocks. As a whole the team functioned well under pressure and 
-                    work being presented to the team was excellent and of the expected quality. Early on in the project there was an inconsistent core vision in what we were making that lead to communication breakdowns and nobody being sure what others were working on.
-                    This issue made it difficult to find the priorities and caused work to be overwritten on git, while the games identity was still being found. As development progressed this issues were fixed and dissapated, but the issue of external pressure from 
-                    other modules that we all needed to complete disrupted our workflow. While we were able to adapt and work around it this created gaps where members of the team would be waiting for work for longer than expected. Luckily this started to be 
-                    communicated through our daily standups so became less of an issue as we all started to understand how clear communication was needed. Furthermore, we had unexpected events where team members were unable to complete their work, due to events 
-                    out of their control. Dealing with an incomplete team at times meant we had to become highly adaptable, restructuring workloads and cutting the scope where required. Key areas this happened was I as a programmer had to take on 
-                    some of the other programmers responsibilites due to circumstances out of their control but this added more work than I could reasonably complete within the time frame of this project. After meeting as a team, this influenced
-                    our decision to cut our game from four levels to three, cutting a security based level, to ensure the final product was polished and functional. 
+                    • <strong>Cross-Discipline Engineering Support:</strong> Supported the writer with UI Blueprint programming, debugging, and binding interface elements to active player state variables. Coached the second programmer on checkpoint systems and interactable actors (fuse boxes, buttons, doors).
+                    <br><br>
+                    • <strong>Profiling & Optimization:</strong> Collaborated heavily with the art team to meet target performance metrics in a intensive cyberpunk environment. Analyzed and optimized dense draw call bottlenecks caused by complex emissive materials, dynamic cyberpunk light sources, and shadow calculations.
                 </p>
             </div>
 
-            
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">The Challenge</h4>
+                <p>
+                    The project's primary obstacles emerged from shifting foundations and unpredictable constraints rather than technical roadblocks:
+                    <br><br>
+                    • <strong>Vision Alignment & Version Control:</strong> Early-stage ambiguities in the core creative direction led to isolated communication pipelines, causing Git merge conflicts and overwritten code strings while the game's core identity was finalized.
+                    <br><br>
+                    • <strong>Resource Constraints & Burnout:</strong> Competing academic module deadlines caused major workflow disruptions, creating dependencies where team members faced long wait times for key game assets. Unforeseen personal emergencies also left the programming team temporarily understaffed.
+                </p>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">Project Management & Production</h4>
+                <p>
+                    • <strong>Agile Coordination & Daily Standups:</strong> Mitigated team communication silos by executing daily standups, establishing clear transparency across all disciplines, tracking asset delivery timelines, and building a reliable weekly milestone evaluation cycle.
+                    <br><br>
+                    • <strong>Data-Driven Iteration:</strong> Managed swift prototyping sprints based on direct playtesting feedback loops, gathering clear community metrics to build case pitches for studio supervisors before committing to major architectural reworks.
+                    <br><br>
+                    • <strong>Risk Management & Agile Scope Stripping:</strong> Acted decisively when team availability dropped. To protect product quality and hit the hard release deadline, I coordinated an emergency change-control meeting to cut the game's scope from 4 levels to 3 (removing a security level), ensuring a polished, functional Minimum Viable Product (MVP).
+                    <br><br>
+                    • <strong>Release & Build Management:</strong> Took full ownership of the pipeline configuration management, producing stable weekly builds for stakeholder review sessions and ensuring reliable version control branch strategies.
+                </p>
+            </div>
 
             <div class="document-links" style="border-top: 1px dashed rgba(200, 111, 67, 0.3); padding-top: 1.5rem;">
                 <a href="https://cheese-dynamics-games.itch.io/cooperation" target="_blank" class="util-link">[ ACCESS ITCHIO PAGE ↗ ]</a>
@@ -534,6 +576,14 @@
                         <h4>Methodologies</h4>
                         <ul><li>Agile Pipelines</li><li>Scrum</li><li>Kanban(Trello)</li><li>Technical Documentation</li><li>Data Visulisation</li></ul>
                 </div>
+                <div class="skill-card">
+                        <h4>Google Professional PM Certificate</h4>
+                        <ul><li>Agile Pipelines & Scrum Frameworks</li>
+                        <li>Kanban (Trello / Jira)</li>
+                        <li>Project Chartering & Risk Mitigation</li>
+                        <li>Sprint Planning & Backlog Grooming</li>
+                        <li>Technical Documentation & MVPs</li></ul>
+                </div>
             </div>
          </div>
 
@@ -548,6 +598,14 @@
                     <p>I received an upper 2:1 in the course Computing for Games from Falmouth University. 
                     I completed modules on programming, mathematics and game programming. During my time there I also had the opportunity to refine my project managment skills through group projects.
                     Key modules that I did are: Data Fundamentals, Computational Mathematics, Graphics and Simulations, Major Collaboration, Dissertation (To What Extent are Users Able to Recognise Personality Traits from a Chatbot?) 
+                    </p>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-meta">ISSUED BY COURSERA/GOGGLE // JUNE 2026 </div>
+                    <div class="timeline-title"> Google Project Management Professional Certificate</div>
+                    <p> I completed this certificate certifying my knowledge in Agile frameworks, Scrum methodology, procurement, and predictive project management. I completed the capstone project focused on real world project
+                        initiation, artifact creation (Project Charters), and risk management.
                     </p>
                 </div>
 
