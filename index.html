@@ -375,7 +375,7 @@
     </style>
 
 <!-- Main webpage Content -->
-<body>
+<body> 
     <!-- Left panel with name and projects-->
     <div class="dashboard-container">
         <div class="left-panel">
@@ -442,6 +442,11 @@
 
             <div class="nav-item" onclick="openPanel('project-game-coop')" style="margin-bottom: 1.5rem;">
                 <span>UE5 Game Cooperation</span>
+                <small>Further Details ↗</small>
+            </div>
+
+            <div class="nav-item" onclick="openPanel('project-dissertation')" style="margin-bottom: 1.5rem;">
+                <span>Dissertation - Can People Recognise Chatbot Emotions</span>
                 <small>Further Details ↗</small>
             </div>
          </div>
@@ -554,6 +559,99 @@
 
             <div class="document-links" style="border-top: 1px dashed rgba(200, 111, 67, 0.3); padding-top: 1.5rem;">
                 <a href="https://cheese-dynamics-games.itch.io/cooperation" target="_blank" class="util-link">[ ACCESS ITCHIO PAGE ↗ ]</a>
+            </div>
+        </div>
+
+         <!--Dissertation-->
+        <div id="project-dissertation" class="content-overlay-panel">
+            <button class="close-panel-btn" onclick="openPanel('panel-projects')">← BACK TO PROJECTS</button>
+            <h3>BSc Dissertation - To What Extent are Users Able to Recognise Personality Traits from a Chatbot?</h3>
+            <div class="timeline-meta" style="margin-bottom: 1.5rem;">SYSTEM ARCHITECTURE DEEP-DIVE</div>
+
+            <div class="project-media-placeholder">
+                <object data="images/Dissertation.pdf" type="application/pdf" width="100%" height="100%">
+                <p>Your browser does not support inline PDFs. 
+               <a href="images/Dissertation.pdf" target="_blank" style="color: #ffb000; text-decoration: underline;">
+                  Click here to download and view the full dissertation PDF.
+               </a>
+                </p>
+                </object>
+            </div>
+           
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">Technical Implementation</h4>
+                <p>
+                    • <strong>Local Architecture:</strong> Deployed an entirely local, converstational AI framework using Ollama to host a DeepSeek 8-Billion parameter model, ensuring zero API dependency and local data control.
+                    • <strong>Software & Pipeline Integration:</strong> Utilised LangChain to create a Python pipeline to pass complex promp architectures dynamically into the model, alongside a user interface creating using Tkinter.
+                    • <strong>Regex Output Parsing:</strong> Created a real-time output cleaning middleware function, utilising Python's built-in regex library to capture, clean, and strip raw LLM think tokens out of the interface stream to provide clean, believable user dialogue.
+                    • <strong>Test-Driven Engineering:</strong> Developed and ran a test suite using the Pytest framework, inheriting standard Unit Test and Test Case structures to build automated testing scripts checking for bot invocation response, empty string bounds, character inputs, and edge cases.
+                </p>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">The Challenge</h4>
+                <p>
+                    • <strong>Hardware & Token Latency Bottlenecks:</strong> Encounted substantial prompt processing delays and non-existent software bug loops during development due to immense hardware resource overhead of hosting a local reasoning models on consumer graphics configurations.
+                    • <strong>Technical Resolution:</strong> Performance degradation was mitigated by benchmarking token delivery speeds and response times to dynamically pivot to a tightly scoped 8B model size and disable active contextual chat memory buffers to prevent token context build up. This drastically decreased respinse generation latency.
+                    • <strong>Data Storage & Privacy Ethics Constraints:</strong> Faced strict data collection guidelines during participant interactions. I adhered to the UK's GDPR, Data Protection Act, the Nuremberg Code, and the BCS Code of Conduct.
+                    • <strong>Data Protection Solution:</strong> Overcame the privacy risks by turning off LLM cahcing features to prevent physical storage of personal inputs, designing a anonymouse data pipeline using Microsoft Forms, and scrubbing identifiable metrics from final evaluation files.
+                </p>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">Project Management & Production</h4>
+                <p>
+                    • <strong>Independent Lifecycle Ownership:</strong> Structured, scheduled, and delivered a multifaceted, multi-month research roadmap follwing strict academic milestones across initial planning, AI development, User testing, Data sourcing, and reporting.
+                    • <strong>Agile Production & QA Pipelines:</strong> Practiced an iterative, incremental development workflow, utilising the Booch Method, to ensure consistent code progression. A/B prompt testing was used to map baseline prompt variations against optimal personality parameters.
+                    • <strong>Advanced Risk & Release Management:</strong> Deployed a securem remote version-control infrastructure via GitHub to enfore structed refactoring, logging bugfixesm feature tasks, and technical risk updates natively through commit logs.
+                    • <strong>Quantitative Methodology & Analytics:</strong> Directed participant logistics to coordinate a 60 question Likert-scale HEXACO evaluation questionaire. Exported results to secure CSV sheets and mapped raw scores via RStudio to visulise data and carry out One-Sample T-Tests to calculate confidence intervals and statistical significance.
+                </p>
+            </div>
+
+            <div class="document-links" style="border-top: 1px dashed rgba(200, 111, 67, 0.3); padding-top: 1.5rem;">
+                <a href="https://github.com/benada482/Dissertation/blob/main/Comp303_1_2203238.pdf" target="_blank" class="util-link">[ ACCESS GITHUB PAGE ↗ ]</a>
+            </div>
+        </div>
+
+        <!--CoOperation Project-->
+        <div id="project-game-coop" class="content-overlay-panel">
+            <button class="close-panel-btn" onclick="openPanel('panel-projects')">← BACK TO PROJECTS</button>
+            <h3>Unreal Engine 5 Game - CoOperation</h3>
+            <div class="timeline-meta" style="margin-bottom: 1.5rem;">SYSTEM ARCHITECTURE DEEP-DIVE</div>
+
+            <div class="project-media-placeholder">
+                <iframe width="560" height="315" 
+                src="https://www.youtube-nocookie.com/embed/ehw8eU9lPVM?si=W8byy4qDvRHyLzY8" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+            </iframe>
+            </div>
+           
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">Technical Implementation</h4>
+                <p>
+
+                </p>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">The Challenge</h4>
+                <p>
+                    
+                </p>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">Project Management & Production</h4>
+                <p>
+                    
+                </p>
+            </div>
+
+            <div class="document-links" style="border-top: 1px dashed rgba(200, 111, 67, 0.3); padding-top: 1.5rem;">
+                <a href="" target="_blank" class="util-link">[ ACCESS ITCHIO PAGE ↗ ]</a>
             </div>
         </div>
 
@@ -670,11 +768,7 @@
                     <input type="range" id="input-beta" min="0.5" max="5" step="0.05" value="2.67">
                 </div>
             </div>
-            <div style="max-width: 220px; text-align: right;">
-                <p style="font-size: 0.8rem; font-style: italic;">Memory pre-calculation loop for low CPU footprint.</p>
-            </div>
         </div>
-
     </div>
 
     <script>
