@@ -449,6 +449,11 @@
                 <span>Dissertation - Can People Recognise Chatbot Emotions</span>
                 <small>Further Details ↗</small>
             </div>
+
+            <div class="nav-item" onclick="openPanel('project-circadia')" style="margin-bottom: 1.5rem;">
+                <span>UE5 Game Circadia</span>
+                <small>Further Details ↗</small>
+            </div>
          </div>
 
         <!--OpenGL Project-->
@@ -618,10 +623,10 @@
             </div>
         </div>
 
-        <!-- Project-->
+        <!--Circadia Project-->
         <div id="project-game-coop" class="content-overlay-panel">
             <button class="close-panel-btn" onclick="openPanel('panel-projects')">← BACK TO PROJECTS</button>
-            <h3>Unreal Engine 5 Game - CoOperation</h3>
+            <h3 style="margin-right: 180px; line-height: 1.3;">Unreal Engine 5 Game - CoOperation</h3>
             <div class="timeline-meta" style="margin-bottom: 1.5rem;">SYSTEM ARCHITECTURE DEEP-DIVE</div>
 
             <div class="project-media-placeholder">
@@ -637,26 +642,42 @@
             <div style="margin-bottom: 2rem;">
                 <h4 style="color: #fff; margin-bottom: 0.5rem;">Technical Implementation</h4>
                 <p>
-
+                    • <strong>Level Streaming & Reality Switching:</strong> Engineered the game's core mechanic: a reality switching mechanic that keeps a base map and swaps between two distinc sub-level streams dynamically during live gameplay
+                    <br><br>
+                    • <strong>Camera System Pivot:</strong> Created a camera switching system where the camera swings around the player to show new perspectives in a fixed perspective game.
+                    <br><br>
+                    • <strong>Spline-Based Traversal Mechanics:</strong> Programmed a contextual, cinematic traversal utilising splines to smoothly translate characters through jumps over fixed points.
+                    <br><br>
+                    • <strong>Object Interaction & Puzzle Systems:</strong> Implemented a object interaction allowing players to detect, lift, carry, and socket physical rock assets into target podiums to complete boolean-gated gamplay puzzles.
                 </p>
             </div>
 
             <div style="margin-bottom: 2rem;">
                 <h4 style="color: #fff; margin-bottom: 0.5rem;">The Challenge</h4>
                 <p>
-                    
+                    • <strong>Critical Resource Drop:</strong> Faced a team crisis when the project's co-programmer had to take an extended, multi-month leave of absence due to unforeseen circumstances, suddenly leaving the team with unassigned tasks and unfinished code. 
+                    <br><br>
+                    • <strong>Technical Resolution:</strong> Stepped up to assume total engineering ownership, rapidly triaging the codebase, refactoring structural bugs, and standardising code documentation to guide the team through implementations. Ran a meeting to discuss unfinished tasks and scope changes, non vital tasks were cut to ensure that the project remained in scope.
+                    <br><br>
+                    • <strong>Design Uncertainty & Mechanic Scope:</strong> Dealt with significant design friction and uncertainty regarding the fundamental activation of the reality-switching mechanic. Debating if it should tie the reality switching directly to user-triggered inputs or automated timers.
+                    <br><br>
+                    • <strong>Architectural Resolution:</strong> Designed and implemented the ability for designers to create timer driven zones and manual triggers so switching can be forced to one level stream, utilising real-world playtest data to finalise the final decision.
                 </p>
             </div>
 
             <div style="margin-bottom: 2rem;">
                 <h4 style="color: #fff; margin-bottom: 0.5rem;">Project Management & Production</h4>
                 <p>
-                    
+                    • <strong>Agile Scope Renegotiation:</strong> Acted as the technical voice of reason following team members being unavaliable, collaborating transparently with artists and designers to downscope mechanics and timebox features to preserve the core gameplay pillars without causing team burnout.
+                    <br><br>
+                    • <strong>Cross-Discipline Asset Pipeline:</strong> Established strict documentation guidelines and guardrails to help team members utilise unreal engine's features and export assets cleanly into the sub-level streaming layers without affecting performance.
+                    <br><br>
+                    • <strong>Iterative Milestone Mitigation:</strong> Broke down complex gameplay systems such as interactions, world switching, and the spline leap into modular sprint objectives, seperating features to ensure the project remained playable and testable for the weekly build deadline.
                 </p>
             </div>
 
             <div class="document-links" style="border-top: 1px dashed rgba(200, 111, 67, 0.3); padding-top: 1.5rem;">
-                <a href="" target="_blank" class="util-link">[ ACCESS ITCHIO PAGE ↗ ]</a>
+                <a href="https://capybara-tower.itch.io/circadia" target="_blank" class="util-link">[ ACCESS ITCHIO PAGE ↗ ]</a>
             </div>
         </div>
 
