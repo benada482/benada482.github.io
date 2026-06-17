@@ -450,8 +450,13 @@
                 <small>Further Details ↗</small>
             </div>
 
-            <div class="nav-item" onclick="openPanel('project-circadia')" style="margin-bottom: 1.5rem;">
+            <div class="nav-item" onclick="openPanel('project-game-circadia')" style="margin-bottom: 1.5rem;">
                 <span>UE5 Game Circadia</span>
+                <small>Further Details ↗</small>
+            </div>
+
+            <div class="nav-item" onclick="openPanel('project-ue5-bossfight')" style="margin-bottom: 1.5rem;">
+                <span>UE5 Boss Fight</span>
                 <small>Further Details ↗</small>
             </div>
          </div>
@@ -678,6 +683,62 @@
 
             <div class="document-links" style="border-top: 1px dashed rgba(200, 111, 67, 0.3); padding-top: 1.5rem;">
                 <a href="https://capybara-tower.itch.io/circadia" target="_blank" class="util-link">[ ACCESS ITCHIO PAGE ↗ ]</a>
+            </div>
+        </div>
+
+        <!--Boss Fight Project-->
+        <div id="project-ue5-bossfight" class="content-overlay-panel">
+            <button class="close-panel-btn" onclick="openPanel('panel-projects')">← BACK TO PROJECTS</button>
+            <h3 style="margin-right: 180px; line-height: 1.3;">Unreal Engine 5 Boss Fight</h3>
+            <div class="timeline-meta" style="margin-bottom: 1.5rem;">SYSTEM ARCHITECTURE DEEP-DIVE</div>
+
+            <div class="project-media-placeholder">
+                <iframe width="560" height="315" 
+                src="https://www.youtube-nocookie.com/embed/ZGTfzP7CyNY?si=Ng5jW3wRajLZ_yF3" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+            </iframe>
+            </div>
+           
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">Technical Implementation</h4>
+                <p>
+                    • <strong>Behavior Tree AI Architecture:</strong> Programmed a dynamic, state-driven boss AI using Unreal Behaviour Trees and Blackboard components to organise combat states, phase based attack patterns, and adaptive attack patterns based on player distance.
+                    <br><br>
+                    • <strong>Engine Optimisation:</strong> Utilised size maps and Unreal's statistics viewer to audit and pinpoint resource-heavy files, downsizing oversize texture sets and asset profiles to improve performance.
+                    <br><br>
+                    • <strong>Memory & Runtime Cleanup:</strong> Utilised object pooling and actor-destruction functions to clear out spawned boss projectile assets and reclaim physical memory during runtime loops.
+                </p>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">The Challenge</h4>
+                <p>
+                    • <strong>Severe Frame-Rate Bottlenecks:</strong> Encountered extreme performance degradatin during initial builds, where high graphical settings and unmanaged level assets choked target hardware (baseline tested on a GTX 1050ti), making the game run at an unplayable 15FPS.
+                    <br><br>
+                    • <strong>Technical Resolution:</strong> Achhieved a 400% performance improvement, going from 15FPS to 60FPS, by disabling engine-heavy default parameters like Lumen dynamic lgihting, implementing strict Level of Detail (LOD) grouping scales, and optimising the project profile down to a streamlined graphical pipeline.
+                    <br><br>
+                    • <strong>Engine Adaptablitity Curve:</strong> Had to rapidly learn and master UE5 functions and frameworks, translation mechanics, and execution patters within a limited, time-boxed module window.
+                    <br><br>
+                    • <strong>Architectural Resolution:</strong> Established a hyper-focused development pipeline, ensuring the boss AI logic is seperate from the player's primary functional loops to prevent system dependency bugs, and ensure features can be tested quickly and in an isolated way.
+                </p>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">Project Management & Production</h4>
+                <p>
+                    • <strong>Strict Timeboxed Delivery:</strong> Managed an intense 3-month production scheduele independently, mapping milestones for character mechanics, AI logic, and final optimisation phases to ensure a stable build delivery by the deadline.
+                    <br><br>
+                    • <strong>Data-Driven QA:</strong> Utilised formal QA validation, actively tracked frame-time graphs and profile captures before and after each optimisation phase to evalue if asset downscaling balaced out graphical losses.
+                    <br><br>
+                    • <strong>Performace Milestone Tracking:</strong> Established strict performance benchmarks early in development, capturing frames per second as a primary metric to measure and authorise new visual or mechanical features.
+                </p>
+            </div>
+
+            <div class="document-links" style="border-top: 1px dashed rgba(200, 111, 67, 0.3); padding-top: 1.5rem;">
+                <a href="https://github.com/benada482/UE5-BossFight" target="_blank" class="util-link">[ ACCESS GITHUB PAGE ↗ ]</a>
             </div>
         </div>
 
