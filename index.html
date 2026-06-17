@@ -463,6 +463,14 @@
                 <span>UE5 Boss Fight</span>
                 <small>Further Details ↗</small>
             </div>
+            <div class="nav-item" onclick="openPanel('project-ue5-audioHorror')" style="margin-bottom: 1.5rem;">
+                <span>UE5 Audio-Reactive Horror Framework</span>
+                <small>Further Details ↗</small>
+            </div>
+            <div class="nav-item" onclick="openPanel('project-ue5-realitiesedge')" style="margin-bottom: 1.5rem;">
+                <span>UE5 Physics Driven Speedrunning/Puzzle Game</span>
+                <small>Further Details ↗</small>
+            </div>
          </div>
 
         <!--OpenGL Project-->
@@ -804,6 +812,125 @@
             </div>
         </div>
 
+        <!--Audio Horror Project-->
+        <div id="project-ue5-audioHorror" class="content-overlay-panel">
+            <button class="close-panel-btn" onclick="openPanel('panel-projects')">← BACK TO PROJECTS</button>
+            <h3 style="margin-right: 180px; line-height: 1.3;">Unreal Engine 5 Audio-Reactive Horror Game</h3>
+            <div class="timeline-meta" style="margin-bottom: 1.5rem;">SYSTEM ARCHITECTURE DEEP-DIVE</div>
+
+            <div class="project-media-placeholder">
+                <iframe width="560" height="315" 
+                src="https://www.youtube.com/embed/fws3fSoqHt4?si=3qHKHKF-0HaHhYHk" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+            </iframe>
+            </div>
+           
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">Technical Implementation</h4>
+                <p>
+                    • <strong>Hardware Audio capture:</strong> Used blueprints to integrate a real-time external microphone data stream directly into the game loop using audio capture listener.
+                    <br><br>
+                    • <strong>Mathematical Data Normalisation:</strong> Engineered a math pipeline that takes raw Audio Envelope Values, multiples the amplitdes against designer and setting exposed sensitivity floats, and then clamps the output between 0.0 and 1.0 to be used.
+                    <br><br>
+                    • <strong>Noise Generation:</strong> Passed the normalised microphone values directly into make noise events to create an accurate level of noise from the real world to be played in game.
+                    <br><br>
+                    • <strong>AI Perception System:</strong> Utilised and set up a system that wanders randomly until the AI hears a noise, which then passes the location of the noise to be investigated.
+                    <br><br>
+                    • <strong>Noise Based UI:</strong> Created a UI element that uses the real-world microphone values to create a dynamic indicator showing a white line when quiet and a red sine wave when loud.
+                </p>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">The Challenge</h4>
+                <p>
+                    • <strong>Ambient Noise Being Picked Up:</strong> Faced a hurdle of ambient noise was picked up by the microphone and fed into the game, triggering false-positive noise events, causing the AI agent to continually track the player.
+                    <br><br>
+                    • <strong>Technical Resolution:</strong> Isolated the core issue by changing the microphone amplitude to a lower value and ensuring that it is an easily adjustable noise-floor limit that designers and players can calibrate to establish clean data cut-offs before the event makes it to the AI. 
+                    <br><br>
+                    • <strong>Project Scope & Frame Completion:</strong> Dealt with the architectural issue of having an unpolished, incomplete overall game loop while focusing on completing the engineering. 
+                    <br><br>
+                    • <strong>Architectural Resolution:</strong> Focused soley on a demo build, seperated entirely from the game loop, treating the audio-reactive build as a modular feature framework rather than a complete project. This allowed the project to be used for learning and portfolio entries while not being a complete game.
+                </p>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">Project Management & Production</h4>
+                <p>
+                   • <strong>Feature Driven Prototyping:</strong> Followed a rapid prototyping mindset, focusing on creating basic enemies, basic player controls and flashlight interactions, and a unquie hardware-to-software validation to ensure conceptual coherence.
+                    <br><br>
+                    • <strong>Exposed Designer Parameters:</strong> Maintained clean production principles by exposing certain variables to designers, allowing designers to change values to suit the gameplay need without overwhelming them with code editing or taking up programmers time.
+                    <br><br>
+                </p>
+            </div>
+
+            <div class="document-links" style="border-top: 1px dashed rgba(200, 111, 67, 0.3); padding-top: 1.5rem;">
+                
+            </div>
+        </div>
+
+                <!--Audio Horror Project-->
+        <div id="project-ue5-realitiesedge" class="content-overlay-panel">
+            <button class="close-panel-btn" onclick="openPanel('panel-projects')">← BACK TO PROJECTS</button>
+            <h3 style="margin-right: 180px; line-height: 1.3;">Unreal Engine 5 Speedrunning Parkour & Puzzle Game</h3>
+            <div class="timeline-meta" style="margin-bottom: 1.5rem;">SYSTEM ARCHITECTURE DEEP-DIVE</div>
+
+            <div class="project-media-placeholder">
+                <iframe width="560" height="315" 
+                src="https://www.youtube-nocookie.com/embed/F3lQ7tYLqVE?si=dfu64xWkE5MZDNjj" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+            </iframe>
+            </div>
+           
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">Technical Implementation</h4>
+                <p>
+                    • <strong>Dual Mode Grappling Hook:</strong> Engineered an advanced, vector driven grappling hook system with two distinctive mechanical states: one that pulls the player towards fixed objects or pulling objects towards players and a pendulum based swinging mode, both utilising spring constants and consistent updates.
+                    <br><br>
+                    • <strong>1st Person Perspective Refactoring:</strong> Took the features from the game Circadia and migrated them into unique mechanics inside of a first-person based project, recalibrating controls and player experience to match the new view.
+                    <br><br>
+                    • <strong>Iterative Sub-level Switching:</strong> Evolved the inherited reality-switching architecture to change it to player controlled and work seamlessly while completing jumps and swinging. 
+                    <br><br>
+                    • <strong>Physics Based Interactions:</strong> Upgraded the previous socket based rock puzzle from using animations and sockets which resulted in numerous bugs into a full first person physics based system utilising raycasting to move rocks onto podiums to fullfil boolean gated puzzle states.
+                </p>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">The Challenge</h4>
+                <p>
+                    • <strong>Multi-Mode Traversal Physics Integration:</strong> Required the character to be able to go from normal walking around to swinging around and running along vertical walls without losing player velocity or snapping the player to surfaces.
+                    <br><br>
+                    • <strong>Technical Resolution:</strong> Designed and programmed the system to work smoothly with base systems to smoothly handle momentum changes and to preserve momentum. 
+                    <br><br>
+                    • <strong>Architectural Recall & Reconstruction:</strong> Tasked with independently rebuilding and adapting the complex reality switching stream system, requiring a clean translation of foundational logic from previous projects from memory while also translating to a newer version of Unreal Engine 5.
+                    <br><br>
+                    • <strong>Architectural Resolution:</strong> Successfully reconstructed the level stream system architecture by avoiding messy dependencies and following similar pathways used last time to ensure a similar game feel.
+                    <br><br>
+                    • <strong>Perspective Layout Transformation:</strong> Mandated a clean structural transition from a legacy 3rd person camera perspective setup into a 1st-person based parkour game.
+                    <br><br>
+                    • <strong>Perspective Resolution:</strong> Refactored game mechanics and feel to better suit the new camera angle, removing unnecessary camera controls from the 3rd person style and established clean UI and view bounds.
+                </p>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">Project Management & Production</h4>
+                <p>
+                   • <strong>Inherited Asset Refactoring & Triage:</strong> Excercised strong technical production principles by prioitising code modularity, using established baseline mechanics of past milestones as a springboard to rapidly create, iterate, and clear early infrastructure phases.
+                    <br><br>
+                    • <strong>Mechanical Optimisation Gating:</strong> Maintained a focus on the game and mechanics core physical feel, using a greybox prototyping zones to track grappling limits, wall run traces, and QA testing results before continuing with enviroment pass implementations.
+                    <br><br>
+                    • <strong>Feature Scope Tuning:</strong> Iterated on technical configuration of mechanics, created exposed designer variables for grapple speed and distances, and reality switching cooldowns to easily iterate on player balancing variables.
+                </p>
+            </div>
+
+            <div class="document-links" style="border-top: 1px dashed rgba(200, 111, 67, 0.3); padding-top: 1.5rem;">
+                
+            </div>
 
          <!-- Skills Panel -->
          <div id="panel-skills" class="content-overlay-panel">
@@ -898,7 +1025,7 @@
                     </div>
                     <button type="submit" class="submit-btn">Send Message! ↗</button>
                 </form>
-            </div>
+        </div>
         
 
         <!-- Sliders to Control Simulation-->
@@ -919,6 +1046,7 @@
             </div>
         </div>
     </div>
+
 
     <script>
         //Set up variables
