@@ -459,6 +459,10 @@
                 <span>UE5 Boss Fight</span>
                 <small>Further Details ↗</small>
             </div>
+            <div class="nav-item" onclick="openPanel('project-ue5-menuplugin')" style="margin-bottom: 1.5rem;">
+                <span>UE5 Boss Fight</span>
+                <small>Further Details ↗</small>
+            </div>
          </div>
 
         <!--OpenGL Project-->
@@ -739,6 +743,64 @@
 
             <div class="document-links" style="border-top: 1px dashed rgba(200, 111, 67, 0.3); padding-top: 1.5rem;">
                 <a href="https://github.com/benada482/UE5-BossFight" target="_blank" class="util-link">[ ACCESS GITHUB PAGE ↗ ]</a>
+            </div>
+        </div>
+
+        <!--Menu System Plugin Project-->
+        <div id="project-ue5-bossfight" class="content-overlay-panel">
+            <button class="close-panel-btn" onclick="openPanel('panel-projects')">← BACK TO PROJECTS</button>
+            <h3 style="margin-right: 180px; line-height: 1.3;">Unreal Engine 5 Menu System Plugin</h3>
+            <div class="timeline-meta" style="margin-bottom: 1.5rem;">SYSTEM ARCHITECTURE DEEP-DIVE</div>
+
+            <div class="project-media-placeholder">
+                <iframe width="560" height="315" 
+                src="https://www.youtube-nocookie.com/embed/a5oIe37DI7M?si=hk29iZtXYChPKE9I" 
+                title="YouTube video player" 
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+            </iframe>
+            </div>
+           
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">Technical Implementation</h4>
+                <p>
+                    • <strong>Custom C++ Layer:</strong> Engineered a low level C++ saving and loading system that is called from blueprints to work with default engine pipelines to load and save user configurations directly into custom save files.
+                    <br><br>
+                    • <strong>Persistent Data Pipelines:</strong> Programmed background verifications that automatically load and enforce graphical settings, control schemes, and volume settings seamlessly upon load.
+                    <br><br>
+                    • <strong>Engine Future Proofing:</strong> Developed the architecture as a plugin to target Unreal Engine 5.6 and above, maintaining compatibility within newer version of Unreal Engine.
+                    <br><br>
+                    • <strong>Full Featured UI Stack:</strong> Implemented a complete out-of-the-box user interface template featuring priary menus, dynamic audio, graphics, brightness adjustments, pause menu systems and accessibility settings.
+                </p>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">The Challenge</h4>
+                <p>
+                    • <strong>Blueprint to Code Friction:</strong> Encounted standard issues synchronising the passing of values between visual Widget Blueprints and C++ code without creating data drops or memory leaks.
+                    <br><br>
+                    • <strong>Technical Resolution:</strong> Resolved blocks by using lightweight C++ base classes exposed to blueprints through standard Unreal functions and utilising initialisation overrides.
+                    <br><br>
+                    • <strong>Tutorial Upscaling & Overhauls:</strong> Avoided the trap of simple tutorial replecation by identifying gaps in save loops and features, refactoring approaches to make something with more customisation and functionality.
+                    <br><br>
+                    • <strong>Architectural Resolution:</strong> Added features that were not spoken about inside the tutorial to add extra accessibility and rewrote save system in C++ to ensure user preferences are kept and retained across game sessions without error.
+                </p>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h4 style="color: #fff; margin-bottom: 0.5rem;">Project Management & Production</h4>
+                <p>
+                   • <strong>Reusable Tool Production:</strong> Approached development with an engine tool mindset, packaging the created asset into a standalone, modular plugin file to allow instant integration into any project.
+                    <br><br>
+                    • <strong>UX Flow Standardisation:</strong> Implemented industry standard frontend loops for menu states, optimising UI hierarchy tress to ensure intuitive use.
+                    <br><br>
+                    • <strong>Clean Code:</strong> Maintained an organised codebase seperating widgets from C++ structures to enable clean maintenance down the line.
+                </p>
+            </div>
+
+            <div class="document-links" style="border-top: 1px dashed rgba(200, 111, 67, 0.3); padding-top: 1.5rem;">
+                
             </div>
         </div>
 
